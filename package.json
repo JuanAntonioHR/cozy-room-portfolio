@@ -13,6 +13,7 @@
     "@react-three/fiber": "^9.5.0",
     "@types/three": "^0.182.0",
     "gsap": "^3.14.2",
+    "leva": "^0.10.1",
     "lucide-react": "^0.562.0",
     "next": "16.1.1",
     "react": "19.2.3",

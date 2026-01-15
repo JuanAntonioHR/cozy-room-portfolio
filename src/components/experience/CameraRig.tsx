@@ -6,7 +6,8 @@ export default function CameraRig() {
 
   return useFrame((state) => {
     state.camera.position.lerp(
-      vec.set(5 + state.mouse.x * 0.8, 3 + state.mouse.y * 0.5, 5),
+      vec.set(1.5 + state.mouse.x * 0.1, 0.2 + state.mouse.y * 0.1, 1.5),
+      //vec.set(4 + state.mouse.x * 0.1, 2 + state.mouse.y * 0.1, 4),
       0.05
     );
     state.camera.lookAt(0, 0, 0);

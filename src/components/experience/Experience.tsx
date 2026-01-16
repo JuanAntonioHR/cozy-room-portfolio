@@ -5,8 +5,8 @@ import { Suspense } from "react";
 import EnvironmentController from "./EnvironmentController";
 import CameraRig from "./CameraRig";
 import Room from "./Room";
-import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import WindowBackground from "./WindowBackground";
+import Effects from "./Effects";
 
 export default function Experience() {
 
@@ -24,14 +24,10 @@ export default function Experience() {
       >
         <Suspense fallback={null}>
           <EnvironmentController />
-          <CameraRig />
-          
+          <CameraRig />   
           <Room />
-          <EffectComposer>
-            <Bloom intensity={0.2} luminanceThreshold={0.7} />
-            <Vignette eskil={false} offset={0.2} darkness={0.4} />
-          </EffectComposer>
           <WindowBackground />
+          <Effects />
         </Suspense>
       </Canvas>
     </div>

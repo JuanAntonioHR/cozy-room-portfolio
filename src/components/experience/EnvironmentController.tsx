@@ -5,8 +5,14 @@ import { useRef } from "react";
 import * as THREE from "three";
 
 export default function EnvironmentController() {
+  const isDev = process.env.NODE_ENV === 'development';
   const dirLightRef = useRef<THREE.DirectionalLight>(null!)
-  useHelper(dirLightRef, THREE.DirectionalLightHelper, 1, 'yellow')
+  
+  // Only use helper in development
+  if (isDev) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useHelper(dirLightRef, THREE.DirectionalLightHelper, 1, 'yellow')
+  }
 
   const ambientLightValue = useControls("Ambient Light", {
     intensity: { value: 0.4, min: 0, max: 5, step: 0.1 },

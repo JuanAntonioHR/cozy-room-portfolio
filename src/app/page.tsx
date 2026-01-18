@@ -1,4 +1,10 @@
-import Experience from "@/components/experience/Experience";
+"use client";
+
+import dynamic from "next/dynamic";
+
+const Experience = dynamic(() => import("@/components/experience/Experience"), {
+  ssr: false,
+});
 
 export default function Home() {
   return (

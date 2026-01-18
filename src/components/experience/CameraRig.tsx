@@ -2,8 +2,9 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useControls } from "leva";
 
+const vec = new THREE.Vector3();
+
 export default function CameraRig() {
-  const vec = new THREE.Vector3();
   const { debugCamera } = useControls("Camera Rig", {
     debugCamera: false
   });

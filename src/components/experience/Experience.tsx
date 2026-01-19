@@ -1,35 +1,36 @@
 "use client";
-import { Canvas } from "@react-three/fiber";
-import * as THREE from "three";
 import { Suspense } from "react";
 import EnvironmentController from "./EnvironmentController";
 import CameraRig from "./CameraRig";
 import Room from "./Room";
 import WindowBackground from "./WindowBackground";
 import Effects from "./Effects";
+import { Godray } from "./Godray";
 
 export default function Experience() {
-
   return (
-    <div className="h-screen w-full relative">
-      <Canvas
-        shadows
-        camera={{ position: [0, 0, 0], fov: 45 }}
-        gl={{
-          antialias: false,
-          outputColorSpace: THREE.SRGBColorSpace,
-          toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1.1
+    <Suspense>
+      <EnvironmentController />
+      <CameraRig />
+      <Room />
+      <WindowBackground />
+      <Effects />
+      <Godray
+        settings={{
+          position: [-0.6, -0.6, -0.6],
+          rotation: [-0.44, 0.21, -1.47],
+          color: "#ffcc80",
+          topRadius: 0.8,
+          bottomRadius: 0.8,
+          height: 2.5,
+          timeSpeed: 0.1,
+          noiseScale: 5,
+          smoothBottom: 0.4,
+          smoothTop: 0.66,
+          fresnelPower: 3,
         }}
-      >
-        <Suspense fallback={null}>
-          <EnvironmentController />
-          <CameraRig />   
-          <Room />
-          <WindowBackground />
-          <Effects />
-        </Suspense>
-      </Canvas>
-    </div>
+        debug
+      />
+    </Suspense>
   );
 }

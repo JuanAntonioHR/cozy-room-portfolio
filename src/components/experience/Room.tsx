@@ -16,8 +16,9 @@ function Room() {
 
         mesh.material = new THREE.MeshStandardMaterial({
           map: (mesh.material as THREE.MeshStandardMaterial).map,
-          roughness: 1,
+          roughness: 0.9,
           metalness: 0,
+          envMapIntensity: 0,
         });
 
         mesh.castShadow = true;
@@ -28,12 +29,7 @@ function Room() {
 
   return (
     <group>
-      <primitive
-        object={scene}
-        scale={1}
-        position={[0, -1, 0]}
-        rotation={[0, 0.5 * Math.PI, 0]}
-      />
+      <primitive object={scene} scale={1} position={[0, -1, 0]} rotation={[0, 0.5 * Math.PI, 0]} />
       <Decorations />
     </group>
   );

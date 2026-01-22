@@ -10,7 +10,13 @@ const Experience = dynamic(() => import("@/components/experience/Experience"), {
 export default function Home() {
   return (
     <main className="h-screen w-screen">
-      <Canvas shadows camera={{ position: [0, 0, 0], fov: 45 }} gl={{ antialias: false }}>
+      <Canvas
+        shadows="soft"
+        camera={{ position: [0, 0, 0], fov: 45 }}
+        gl={{
+          antialias: false,
+        }}
+      >
         <Experience />
       </Canvas>
     </main>

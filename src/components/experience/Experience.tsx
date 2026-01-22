@@ -29,7 +29,6 @@ export default function Experience() {
           smoothTop: 0.66,
           fresnelPower: 3,
         }}
-        debug
       />
     </Suspense>
   );

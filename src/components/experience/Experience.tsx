@@ -6,6 +6,7 @@ import Room from "./Room";
 import WindowBackground from "./WindowBackground";
 import Effects from "./Effects";
 import { Godray } from "./Godray";
+import HangingPlants from "./HangingPlant";
 
 export default function Experience() {
   return (
@@ -13,6 +14,7 @@ export default function Experience() {
       <EnvironmentController />
       <CameraRig />
       <Room />
+      <HangingPlants />
       <WindowBackground />
       <Effects />
       <Godray

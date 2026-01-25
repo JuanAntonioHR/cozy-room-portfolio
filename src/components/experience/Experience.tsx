@@ -16,7 +16,7 @@ export default function Experience() {
       <Room />
       <HangingPlants />
       <WindowBackground />
-      <Effects />
+      {/* <Effects /> */}
       <Godray
         settings={{
           position: [-0.6, -0.6, -0.6],

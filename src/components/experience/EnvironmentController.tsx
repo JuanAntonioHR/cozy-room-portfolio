@@ -1,5 +1,5 @@
 import { useControls } from "leva";
-import { Environment, Sparkles, useHelper } from "@react-three/drei";
+import { Environment, Sparkles, SpotLight, useHelper } from "@react-three/drei";
 import { useRef } from "react";
 import * as THREE from "three";
 
@@ -18,9 +18,10 @@ type EnvironmentPreset =
 export default function EnvironmentController() {
   const isDev = process.env.NODE_ENV === "development";
   const dirLightRef = useRef<THREE.DirectionalLight>(null!);
+  const spotLightRef = useRef<THREE.SpotLight>(null!);
 
-  // Use helper unconditionally but pass null if not in dev to follow hook rules
   useHelper(isDev ? dirLightRef : null, THREE.DirectionalLightHelper, 1, "yellow");
+  useHelper(isDev ? spotLightRef : null, THREE.SpotLightHelper);
 
   const enviromentControls = useControls("Environment", {
     intensity: { value: 1, min: 0, max: 1, step: 0.01 },

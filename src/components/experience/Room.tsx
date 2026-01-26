@@ -5,6 +5,7 @@ import { useEffect, memo } from "react";
 import * as THREE from "three";
 import { Mesh } from "three";
 import Foliage, { FoliageInstance } from "./Foliage";
+import { VoxelChuModel } from "./gltfjsx/VoxelChuModel";
 
 function Room() {
   const { scene } = useGLTF("/models/VoxelRoomBlend.glb");
@@ -52,6 +53,7 @@ function Room() {
     <group>
       <primitive object={scene} scale={1} position={[0, -1, 0]} rotation={[0, 0.5 * Math.PI, 0]} />
       <Foliage instances={foliageInstances} />
+      <VoxelChuModel />
     </group>
   );
 }

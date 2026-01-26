@@ -7,6 +7,7 @@ import WindowBackground from "./WindowBackground";
 import Effects from "./Effects";
 import { Godray } from "./Godray";
 import HangingPlants from "./HangingPlant";
+import { SteamEmitter } from "./SteamEmitter";
 
 export default function Experience() {
   return (
@@ -17,6 +18,7 @@ export default function Experience() {
       <HangingPlants />
       <WindowBackground />
       {/* <Effects /> */}
+      <SteamEmitter position={[-0.85, -0.3, -0.8]} />
       <Godray
         settings={{
           position: [-0.6, -0.6, -0.6],

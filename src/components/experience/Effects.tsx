@@ -16,7 +16,7 @@ export default function Effects() {
       <Noise opacity={0.02} />
       <ToneMapping adaptive={true} />
       <ChromaticAberration offset={new THREE.Vector2(0.001, 0.001)} />
-      <DepthOfField bokehScale={1} height={1000} />
+      <DepthOfField bokehScale={0.5} height={1000} />
       <Vignette offset={0.3} darkness={0.9} />
     </EffectComposer>
   );

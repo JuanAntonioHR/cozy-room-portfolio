@@ -45,13 +45,11 @@ export function VoxelSWModel(props: JSX.IntrinsicElements["group"]) {
       });
     } else {
       gsap.to([leftJoyRef.current.position], {
-        x: -0.1146,
         y: 0.0054,
         duration: 0.4,
         ease: "elastic.out(1, 0.75)",
       });
       gsap.to([rightJoyRef.current.position], {
-        x: 0.1246,
         y: 0.0034,
         duration: 0.4,
         ease: "elastic.out(1, 0.75)",

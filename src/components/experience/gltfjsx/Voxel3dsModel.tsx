@@ -7,6 +7,8 @@ import { JSX, useEffect, useRef, useState } from "react";
 import { Outlines, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import gsap from "gsap";
+import { useStore } from "@/store";
+import Console3DSContent from "../screens/Console3DSContent";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -20,11 +22,31 @@ type GLTFResult = GLTF & {
 
 export function Voxel3dsModel(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF("/models/Voxel3ds.glb") as unknown as GLTFResult;
+
+  const setFocus = useStore((state) => state.setFocus);
+  const focus = useStore((state) => state.focus);
+
+  const groupRef = useRef<THREE.Group>(null!);
   const baseRef = useRef<THREE.Mesh>(null!);
   const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
-    if (hovered) {
+    if (focus === "ds") {
+      gsap.to(groupRef.current.position, {
+        x: 1.4,
+        y: 0.08,
+        z: 1.4,
+        duration: 0.4,
+        ease: "power2.out",
+      });
+      gsap.to(groupRef.current.rotation, {
+        x: 0.15 * Math.PI,
+        y: 0.23 * Math.PI,
+        z: -0.1 * Math.PI,
+        duration: 0.4,
+        ease: "power2.out",
+      });
+    } else if (hovered && focus === "idle") {
       gsap.to(baseRef.current.scale, {
         x: 1.1,
         y: 1.1,
@@ -50,18 +72,38 @@ export function Voxel3dsModel(props: JSX.IntrinsicElements["group"]) {
         duration: 0.2,
         ease: "power2.out",
       });
+      gsap.to(groupRef.current.position, {
+        x: -0.6,
+        y: -0.467,
+        z: 0.5,
+        duration: 0.2,
+        ease: "power2.out",
+      });
+      gsap.to(groupRef.current.rotation, {
+        x: 0,
+        y: Math.PI * 0.5,
+        z: 0,
+        duration: 0.2,
+        ease: "power2.out",
+      });
     }
-  }, [hovered]);
+  }, [focus, hovered]);
 
   return (
     <group
       {...props}
+      ref={groupRef}
       dispose={null}
       position={[-0.6, -0.467, 0.5]}
       rotation={[0, Math.PI * 0.5, 0]}
       scale={1.2}
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
+      onClick={() => {
+        if (focus === "idle") {
+          setFocus("ds");
+        }
+      }}
     >
       <mesh
         ref={baseRef}
@@ -77,9 +119,10 @@ export function Voxel3dsModel(props: JSX.IntrinsicElements["group"]) {
           material={materials.palette}
           position={[0.001, 0.0072, -0.0455]}
         >
-          <Outlines visible={hovered} thickness={3} color="white" />
+          {focus === "ds" && <Console3DSContent />}
+          <Outlines visible={hovered && focus === "idle"} thickness={3} color="white" />
         </mesh>
-        <Outlines visible={hovered} thickness={3} color="white" />
+        <Outlines visible={hovered && focus === "idle"} thickness={3} color="white" />
       </mesh>
     </group>
   );

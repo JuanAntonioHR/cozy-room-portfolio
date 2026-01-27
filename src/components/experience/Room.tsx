@@ -6,9 +6,13 @@ import * as THREE from "three";
 import { Mesh } from "three";
 import Foliage, { FoliageInstance } from "./Foliage";
 import { VoxelChuModel } from "./gltfjsx/VoxelChuModel";
+import { VoxelGBModel } from "./gltfjsx/VoxelGBModel";
+import { Voxel3dsModel } from "./gltfjsx/Voxel3dsModel";
+import { VoxelSWModel } from "./gltfjsx/VoxelSWModel";
+import { VideoScreen } from "./VideoScreen";
 
 function Room() {
-  const { scene } = useGLTF("/models/VoxelRoomBlend.glb");
+  const { scene } = useGLTF("/models/VoxelRoomBlend-transformed.glb");
 
   const foliageInstances: FoliageInstance[] = [
     { type: 3, position: [-1.21, 0.74, 1.04], scale: 0.2 },
@@ -54,10 +58,14 @@ function Room() {
       <primitive object={scene} scale={1} position={[0, -1, 0]} rotation={[0, 0.5 * Math.PI, 0]} />
       <Foliage instances={foliageInstances} />
       <VoxelChuModel />
+      <VoxelGBModel />
+      <Voxel3dsModel />
+      <VoxelSWModel />
+      <VideoScreen />
     </group>
   );
 }
 
 export default memo(Room);
 
-useGLTF.preload("/models/VoxelRoomBlend.glb");
+useGLTF.preload("/models/VoxelRoomBlend-transformed.glb");

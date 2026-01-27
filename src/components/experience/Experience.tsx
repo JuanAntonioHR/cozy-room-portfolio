@@ -17,7 +17,7 @@ export default function Experience() {
       <Room />
       <HangingPlants />
       <WindowBackground />
-      <Effects />
+      {/* <Effects /> */}
       <SteamEmitter position={[-0.85, -0.3, -0.8]} />
       <Godray
         settings={{

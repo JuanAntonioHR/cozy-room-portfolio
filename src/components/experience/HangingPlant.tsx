@@ -4,7 +4,7 @@ import { useRef, useState, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
-import { HangingPotModel } from "./HangingPotModel";
+import { HangingPotModel } from "./gltfjsx/HangingPotModel";
 import gsap from "gsap";
 
 interface HangingPlantProps {

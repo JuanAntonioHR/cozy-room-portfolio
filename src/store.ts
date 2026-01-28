@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export type CameraFocus = 'idle' | 'switch' | 'gb' | 'ds';
+export type CameraFocus = 'idle' | 'sw' | 'gb' | 'ds';
 
 interface AppState {
   focus: CameraFocus;

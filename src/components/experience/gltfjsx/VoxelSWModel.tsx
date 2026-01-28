@@ -5,6 +5,8 @@ import { JSX, useRef, useState, useEffect } from "react";
 import { useGLTF, Outlines } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import gsap from "gsap";
+import { useStore } from "@/store";
+import ConsoleSWContent from "../screens/ConsoleSWContent";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -20,17 +22,47 @@ type GLTFResult = GLTF & {
 export function VoxelSWModel(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF("/models/VoxelSW.glb") as unknown as GLTFResult;
 
-  const [hovered, setHovered] = useState(false);
+  const setFocus = useStore((state) => state.setFocus);
+  const focus = useStore((state) => state.focus);
 
+  const groupRef = useRef<THREE.Group>(null!);
   const leftJoyRef = useRef<THREE.Mesh>(null!);
   const rightJoyRef = useRef<THREE.Mesh>(null!);
-  const groupRef = useRef<THREE.Group>(null!);
+  const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
-    gsap.killTweensOf([leftJoyRef.current.position, leftJoyRef.current.rotation]);
-    gsap.killTweensOf([rightJoyRef.current.position, rightJoyRef.current.rotation]);
-
-    if (hovered) {
+    if (focus === "sw") {
+      gsap.to(groupRef.current.position, {
+        x: 1.33,
+        y: 0.178,
+        z: 1.33,
+        duration: 0.7,
+        ease: "power2.out",
+      });
+      gsap.to(groupRef.current.rotation, {
+        x: 1.96 * Math.PI,
+        y: 0.25 * Math.PI,
+        z: 0.028 * Math.PI,
+        duration: 0.6,
+        ease: "power2.out",
+      });
+    } else {
+      gsap.to(groupRef.current.position, {
+        x: -0.85,
+        y: -0.36,
+        z: -0.39,
+        duration: 0.6,
+        ease: "power2.out",
+      });
+      gsap.to(groupRef.current.rotation, {
+        x: 0,
+        y: 1.3,
+        z: 0,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    }
+    if (hovered && focus === "idle") {
       gsap.to([leftJoyRef.current.position, rightJoyRef.current.position], {
         y: 0.03,
         duration: 0.4,
@@ -62,7 +94,7 @@ export function VoxelSWModel(props: JSX.IntrinsicElements["group"]) {
         ease: "power2.out",
       });
     }
-  }, [hovered]);
+  }, [hovered, focus]);
 
   return (
     <group
@@ -74,9 +106,14 @@ export function VoxelSWModel(props: JSX.IntrinsicElements["group"]) {
       scale={1.3}
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
+      onClick={(e) => {
+        e.stopPropagation();
+        if (focus === "idle") {
+          setFocus("sw");
+        }
+      }}
     >
       <mesh
-        ref={groupRef}
         castShadow
         receiveShadow
         geometry={nodes.SW_Screen.geometry}
@@ -90,7 +127,7 @@ export function VoxelSWModel(props: JSX.IntrinsicElements["group"]) {
           material={materials.palette}
           position={[-0.1146, 0.0054, 0.0001]}
         >
-          <Outlines visible={hovered} thickness={3} color="white" />
+          <Outlines visible={hovered && focus === "idle"} thickness={3} color="white" />
         </mesh>
         <mesh
           ref={rightJoyRef}
@@ -100,10 +137,10 @@ export function VoxelSWModel(props: JSX.IntrinsicElements["group"]) {
           material={materials.palette}
           position={[0.1246, 0.0034, 0.0001]}
         >
-          <Outlines visible={hovered} thickness={3} color="white" />
+          <Outlines visible={hovered && focus === "idle"} thickness={3} color="white" />
         </mesh>
-
-        <Outlines visible={hovered} thickness={3} color="white" />
+        {focus === "sw" && <ConsoleSWContent />}
+        <Outlines visible={hovered && focus === "idle"} thickness={3} color="white" />
       </mesh>
     </group>
   );

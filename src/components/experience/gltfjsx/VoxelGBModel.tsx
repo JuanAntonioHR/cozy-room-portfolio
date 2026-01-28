@@ -7,6 +7,8 @@ import { JSX, useEffect, useRef, useState } from "react";
 import { Outlines, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import gsap from "gsap";
+import { useStore } from "@/store";
+import ConsoleGBContent from "../screens/ConsoleGBContent";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -20,13 +22,32 @@ type GLTFResult = GLTF & {
 };
 
 export function VoxelGBModel(props: JSX.IntrinsicElements["group"]) {
+  const { nodes, materials } = useGLTF("/models/VoxelGB.glb") as unknown as GLTFResult;
+
+  const setFocus = useStore((state) => state.setFocus);
+  const focus = useStore((state) => state.focus);
+
   const groupRef = useRef<THREE.Group>(null!);
   const cartridgeRef = useRef<THREE.Mesh>(null!);
-  const { nodes, materials } = useGLTF("/models/VoxelGB.glb") as unknown as GLTFResult;
   const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
-    if (hovered) {
+    if (focus === "gb") {
+      gsap.to(groupRef.current.position, {
+        x: 1.41,
+        y: 0.15,
+        z: 1.41,
+        duration: 0.7,
+        ease: "power2.out",
+      });
+      gsap.to(groupRef.current.rotation, {
+        x: -0.04 * Math.PI,
+        y: 2.25 * Math.PI,
+        z: 0.0275 * Math.PI,
+        duration: 0.6,
+        ease: "power2.out",
+      });
+    } else if (hovered && focus === "idle") {
       gsap.to(groupRef.current.scale, {
         x: 1.2,
         y: 1.2,
@@ -53,8 +74,17 @@ export function VoxelGBModel(props: JSX.IntrinsicElements["group"]) {
         ease: "power2.out",
       });
       gsap.to(groupRef.current.position, {
+        x: -0.66,
         y: -0.38,
-        duration: 0.2,
+        z: 0.735,
+        duration: 0.6,
+        ease: "power2.out",
+      });
+      gsap.to(groupRef.current.rotation, {
+        x: Math.PI * 0.5,
+        y: 2.1,
+        z: Math.PI * -0.5,
+        duration: 0.5,
         ease: "power2.out",
       });
       gsap.to(cartridgeRef.current.position, {
@@ -63,18 +93,24 @@ export function VoxelGBModel(props: JSX.IntrinsicElements["group"]) {
         ease: "power2.out",
       });
     }
-  }, [hovered]);
+  }, [focus, hovered]);
 
   return (
     <group
-      ref={groupRef}
       {...props}
+      ref={groupRef}
       dispose={null}
       position={[-0.66, -0.38, 0.735]}
       rotation={[Math.PI * 0.5, 2.1, Math.PI * -0.5]}
       scale={1.1}
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
+      onClick={(e) => {
+        e.stopPropagation();
+        if (focus === "idle") {
+          setFocus("gb");
+        }
+      }}
     >
       <mesh
         ref={cartridgeRef}
@@ -84,7 +120,7 @@ export function VoxelGBModel(props: JSX.IntrinsicElements["group"]) {
         material={materials.palette}
         position={[0.0004, 0.0488, -0.0124]}
       >
-        <Outlines visible={hovered} thickness={3} color="white" />
+        <Outlines visible={hovered && focus === "idle"} thickness={3} color="white" />
       </mesh>
       <mesh
         castShadow
@@ -92,7 +128,8 @@ export function VoxelGBModel(props: JSX.IntrinsicElements["group"]) {
         geometry={nodes.GB_Console.geometry}
         material={materials.palette}
       >
-        <Outlines visible={hovered} thickness={3} color="white" />
+        {focus === "gb" && <ConsoleGBContent />}
+        <Outlines visible={hovered && focus === "idle"} thickness={3} color="white" />
       </mesh>
     </group>
   );

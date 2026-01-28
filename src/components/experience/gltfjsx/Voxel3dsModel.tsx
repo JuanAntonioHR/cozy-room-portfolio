@@ -36,14 +36,14 @@ export function Voxel3dsModel(props: JSX.IntrinsicElements["group"]) {
         x: 1.4,
         y: 0.08,
         z: 1.4,
-        duration: 0.4,
+        duration: 0.7,
         ease: "power2.out",
       });
       gsap.to(groupRef.current.rotation, {
         x: 0.15 * Math.PI,
-        y: 0.23 * Math.PI,
+        y: 2.23 * Math.PI,
         z: -0.1 * Math.PI,
-        duration: 0.4,
+        duration: 0.6,
         ease: "power2.out",
       });
     } else if (hovered && focus === "idle") {
@@ -76,14 +76,14 @@ export function Voxel3dsModel(props: JSX.IntrinsicElements["group"]) {
         x: -0.6,
         y: -0.467,
         z: 0.5,
-        duration: 0.2,
+        duration: 0.6,
         ease: "power2.out",
       });
       gsap.to(groupRef.current.rotation, {
         x: 0,
         y: Math.PI * 0.5,
         z: 0,
-        duration: 0.2,
+        duration: 0.6,
         ease: "power2.out",
       });
     }
@@ -99,7 +99,8 @@ export function Voxel3dsModel(props: JSX.IntrinsicElements["group"]) {
       scale={1.2}
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation();
         if (focus === "idle") {
           setFocus("ds");
         }

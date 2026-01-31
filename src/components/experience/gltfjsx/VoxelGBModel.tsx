@@ -35,14 +35,14 @@ export function VoxelGBModel(props: JSX.IntrinsicElements["group"]) {
     if (focus === "gb") {
       gsap.to(groupRef.current.position, {
         x: 1.41,
-        y: 0.15,
+        y: 0.147,
         z: 1.41,
         duration: 0.7,
         ease: "power2.out",
       });
       gsap.to(groupRef.current.rotation, {
-        x: -0.04 * Math.PI,
-        y: 2.25 * Math.PI,
+        x: 1.96 * Math.PI,
+        y: 0.25 * Math.PI,
         z: 0.0275 * Math.PI,
         duration: 0.6,
         ease: "power2.out",

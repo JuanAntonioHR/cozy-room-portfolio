@@ -8,7 +8,7 @@ import { Outlines, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import gsap from "gsap";
 import { useStore } from "@/store";
-import ConsoleGBContent from "../screens/ConsoleGBContent";
+import ConsoleGBContent from "../console-ui/gb/ConsoleGBContent";
 
 type GLTFResult = GLTF & {
   nodes: {

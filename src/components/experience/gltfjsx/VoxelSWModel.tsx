@@ -6,7 +6,7 @@ import { useGLTF, Outlines } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import gsap from "gsap";
 import { useStore } from "@/store";
-import ConsoleSWContent from "../screens/ConsoleSWContent";
+import ConsoleSWContent from "../console-ui/sw/ConsoleSWContent";
 
 type GLTFResult = GLTF & {
   nodes: {

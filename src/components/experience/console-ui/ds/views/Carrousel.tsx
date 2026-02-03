@@ -1,8 +1,8 @@
 "use client";
 
 import { BubbleBackground } from "@/components/animate-ui/components/backgrounds/bubble";
-import { LiquidGlassCard } from "@/components/kokonutui/liquid-glass-card";
 import { BubbleCarousel } from "../components/BubbleCarousel";
+import BubbleCard from "../components/BubbleCard";
 
 function Carrousel() {
   return (
@@ -18,11 +18,7 @@ function Carrousel() {
       interactive
     >
       <BubbleCarousel
-        items={[
-          <LiquidGlassCard key="1">Card 1</LiquidGlassCard>,
-          <LiquidGlassCard key="2">Card 2</LiquidGlassCard>,
-          <LiquidGlassCard key="3">Card 3</LiquidGlassCard>,
-        ]}
+        items={[<BubbleCard key="1" />, <BubbleCard key="2" />, <BubbleCard key="3" />]}
       />
     </BubbleBackground>
   );

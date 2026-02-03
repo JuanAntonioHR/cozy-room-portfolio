@@ -27,9 +27,12 @@ export default function BubbleHeader() {
   }).format(now);
 
   return (
-    <header className="flex items-center justify-end px-8">
-      <LiquidGlassCard className="absolute top-4 -left-5 flex w-70 items-end rounded-full border border-zinc-200/50 px-5 py-2 text-lg text-zinc-50 shadow-xl">
-        <h1>Experience</h1>
+    <header id="bubble-header" className="flex items-end justify-between pt-4 pr-8">
+      <LiquidGlassCard
+        dir="rtl"
+        className="flex w-70 justify-end rounded-s-full border-y border-s border-zinc-200/50 px-5 py-2 text-lg text-zinc-50 shadow-xl"
+      >
+        <h1 className="text-shadow-2xs text-shadow-teal-600">Experience</h1>
       </LiquidGlassCard>
 
       <LiquidGlassCard className="flex flex-row items-center gap-2 rounded-full border border-zinc-200/50 px-5 py-2 text-lg text-zinc-50 shadow-xl">

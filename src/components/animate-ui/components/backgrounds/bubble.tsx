@@ -121,6 +121,15 @@ function BubbleBackground({
           `}
       </style>
 
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage: "url(/textures/fx/noise.png)",
+          backgroundRepeat: "repeat",
+          backgroundSize: "64px 64px",
+        }}
+      />
+
       <svg xmlns="http://www.w3.org/2000/svg" className="absolute top-0 left-0 h-0 w-0">
         <defs>
           <filter id="goo">

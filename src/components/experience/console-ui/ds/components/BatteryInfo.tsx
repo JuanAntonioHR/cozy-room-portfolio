@@ -22,7 +22,7 @@ export default function BatteryInfo() {
           <BatteryFull className="size-5" />
         ) : level > 0.5 ? (
           <BatteryMedium className="size-5" />
-        ) : level > 0.2 ? (
+        ) : level > 0.1 ? (
           <BatteryLow className="size-5" />
         ) : (
           <Battery className="size-5" />

@@ -43,21 +43,19 @@ export const BubbleCarousel: React.FC<BubbleCarouselProps> = ({ items }) => {
   }, [emblaApi, onSelect]);
 
   return (
-    <div className="flex h-full w-full flex-col justify-between py-4">
+    <div className="flex h-full w-full flex-col justify-between">
       <BubbleHeader />
-      <div className="overflow-hidden" ref={emblaRef}>
+      <div ref={emblaRef}>
         <div className="flex">
           {items.map((item, index) => (
-            <div key={index} className="flex flex-[0_0_80%] justify-center px-4">
-              <div className="flex h-40 w-full items-center justify-center rounded-xl bg-zinc-800 text-white">
-                {item}
-              </div>
+            <div key={index} className="flex justify-center px-10">
+              <div className="h-44 w-110">{item}</div>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="flex justify-between px-8">
+      <div className="flex items-start justify-between px-8 pb-4">
         <CarouselButton direction="prev" onClick={() => emblaApi?.scrollPrev()}>
           <ArrowBigLeft className="size-7" />
         </CarouselButton>

@@ -10,7 +10,7 @@ interface CarouselDotsProps {
 
 export const CarouselDots: React.FC<CarouselDotsProps> = ({ count, selectedIndex, onSelect }) => {
   return (
-    <div className="z-10 flex items-center justify-center gap-2">
+    <div className="z-10 my-auto flex gap-2">
       {Array.from({ length: count }).map((_, index) => (
         <button
           key={index}

@@ -3,6 +3,7 @@
 import { BubbleBackground } from "@/components/animate-ui/components/backgrounds/bubble";
 import { BubbleCarousel } from "../components/BubbleCarousel";
 import BubbleCard from "../components/BubbleCard";
+import ComingSoonCard from "../components/ComingSoonCard";
 import { experienceInfo } from "@/data/ExperienceInfo";
 
 function Carrousel() {
@@ -19,9 +20,12 @@ function Carrousel() {
       interactive
     >
       <BubbleCarousel
-        items={experienceInfo.map((experience, index) => (
-          <BubbleCard key={index} experience={experience} />
-        ))}
+        items={[
+          ...experienceInfo.map((experience, index) => (
+            <BubbleCard key={index} experience={experience} />
+          )),
+          <ComingSoonCard key="coming-soon" />,
+        ]}
       />
     </BubbleBackground>
   );

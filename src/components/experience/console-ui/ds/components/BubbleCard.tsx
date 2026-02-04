@@ -100,7 +100,7 @@ export default function BubbleCard({ isExpanded, onToggle, experience }: BubbleC
               isExpanded ? "size-14" : "size-0 opacity-0",
             )}
           >
-            <X className={cn("transition-all", isExpanded ? "size-7" : "size-0")} />
+            <X className={cn("transition-transform", isExpanded ? "size-7" : "size-0")} />
           </LiquidButton>
         </div>
       </div>

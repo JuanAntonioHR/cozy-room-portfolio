@@ -1,9 +1,9 @@
-import Carrousel from "@/components/experience/console-ui/ds/views/ExperienceCarousel";
+import Main from "@/components/experience/console-ui/gb/views/Main";
 
 function page() {
   return (
-    <div className={`h-[360px] w-[640px]`}>
-      <Carrousel />
+    <div className={`h-[480px] w-[480px]`}>
+      <Main />
     </div>
   );
 }

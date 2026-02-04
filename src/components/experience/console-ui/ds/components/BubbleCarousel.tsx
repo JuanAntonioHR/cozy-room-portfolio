@@ -88,7 +88,7 @@ export const BubbleCarousel: React.FC<BubbleCarouselProps> = ({ items }) => {
   const springConfig = { type: "spring", stiffness: 1000, damping: 20, mass: 2 } as const;
 
   return (
-    <div className="flex h-full w-full flex-col justify-between overflow-hidden">
+    <div className="flex h-full w-full flex-col gap-6 overflow-hidden">
       <motion.div
         initial={false}
         animate={{
@@ -139,7 +139,7 @@ export const BubbleCarousel: React.FC<BubbleCarouselProps> = ({ items }) => {
 
       <motion.div
         initial={false}
-        animate={{ height: isExpanded ? 0 : "auto" }}
+        animate={{ height: isExpanded ? 0 : "auto", opacity: isExpanded ? 0 : 1 }}
         transition={springConfig}
       >
         <div className="flex items-start justify-between px-8 pb-4">

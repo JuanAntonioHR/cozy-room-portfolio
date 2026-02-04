@@ -27,7 +27,7 @@ export default function BubbleHeader() {
   }).format(now);
 
   return (
-    <header id="bubble-header" className="flex items-end justify-between pt-4 pr-8">
+    <>
       <LiquidGlassCard
         dir="rtl"
         className="flex w-70 justify-end rounded-s-full border-y border-s border-zinc-200/50 px-5 py-2 text-lg text-zinc-50 shadow-xl"
@@ -40,6 +40,6 @@ export default function BubbleHeader() {
         <span className="text-zinc-200/50">|</span> {time}
         <span className="text-zinc-200/50">|</span> <BatteryInfo /> <Wifi className="size-4" />
       </LiquidGlassCard>
-    </header>
+    </>
   );
 }

@@ -1,4 +1,4 @@
-import Carrousel from "@/components/experience/console-ui/ds/views/Carrousel";
+import Carrousel from "@/components/experience/console-ui/ds/views/ExperienceCarousel";
 
 function page() {
   return (

@@ -9,7 +9,7 @@ export type ExperienceInfoType = {
 
 export const experienceInfo: ExperienceInfoType[] = [
   {
-    image: "/images/petco.png",
+    image: "/images/experiences/petco.png",
     title: "Software Eng. Intern",
     company: "Petco",
     date: "May 2025 - Jan 2026",
@@ -18,7 +18,7 @@ export const experienceInfo: ExperienceInfoType[] = [
     skills: ["SQL", "Jira"],
   },
   {
-    image: "/images/cd.png",
+    image: "/images/experiences/cd.png",
     title: "Web Dev. Intern",
     company: "Centro de Desarrollo - FIF",
     date: "Mar 2022 - Jan 2026",

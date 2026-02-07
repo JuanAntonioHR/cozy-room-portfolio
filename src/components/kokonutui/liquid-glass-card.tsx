@@ -114,7 +114,7 @@ function LiquidButton({
           className="pointer-events-none absolute inset-0 isolate -z-10 overflow-hidden rounded-md transition-colors"
           style={{ backdropFilter: `url("#${filterId}")` }}
         />
-        <span className="relative z-10">{children}</span>
+        {children}
       </>
     </Button>
   );

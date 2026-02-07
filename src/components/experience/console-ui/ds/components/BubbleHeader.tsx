@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { LiquidGlassCard } from "@/components/kokonutui/liquid-glass-card";
-import BatteryInfo from "./BatteryInfo";
+import BatteryInfo from "../../components/BatteryInfo";
 import { Wifi } from "lucide-react";
 
 export default function BubbleHeader() {

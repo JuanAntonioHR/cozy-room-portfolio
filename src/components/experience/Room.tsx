@@ -9,6 +9,7 @@ import { VoxelChuModel } from "./gltfjsx/VoxelChuModel";
 import { VoxelGBModel } from "./gltfjsx/VoxelGBModel";
 import { Voxel3dsModel } from "./gltfjsx/Voxel3dsModel";
 import { VoxelSWModel } from "./gltfjsx/VoxelSWModel";
+import { SWDockModel } from "./gltfjsx/SWDockModel";
 import { VideoScreen } from "./VideoScreen";
 
 function Room() {
@@ -61,6 +62,7 @@ function Room() {
       <VoxelGBModel />
       <Voxel3dsModel />
       <VoxelSWModel />
+      <SWDockModel />
       <VideoScreen />
     </group>
   );

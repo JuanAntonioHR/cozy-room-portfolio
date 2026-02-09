@@ -58,9 +58,9 @@ export default function Bibliography() {
                 responsive, performant, and thoughtfully designed.
               </p>
               <p>
-                When I&apos;m not coding, you can find me diving into nintendo games, experimenting
-                with 3D models, UI animations, or enjoying a quiet moment in a virtual cozy room
-                just like this one :3
+                When I&apos;m not coding, you can find me diving into nintendo games, working magic
+                on consoles, UI animations, or enjoying a quiet moment in a virtual cozy room just
+                like this one :3
               </p>
             </div>
           </ScrollArea>

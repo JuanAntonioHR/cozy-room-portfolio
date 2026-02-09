@@ -1,14 +1,15 @@
 import { ScrollArea } from "@/components/ui/8bit/scroll-area";
 import { Card } from "@/components/ui/8bit/card";
+import { Separator } from "@/components/ui/8bit/separator";
 
 export default function Acknowledgments() {
   return (
-    <div className="bg-background flex h-full flex-col gap-4 overflow-hidden p-2">
-      <h2 className="border-foreground shrink-0 px-2 pt-2 text-sm uppercase">Acknowledgments</h2>
+    <div className="bg-background flex h-full flex-col gap-4 overflow-hidden py-2">
+      <h2 className="border-foreground shrink-0 px-4 pt-2 text-sm uppercase">Acknowledgments</h2>
       <ScrollArea className="min-h-0 flex-1 pr-4">
         <div className="flex flex-col gap-4 pb-4">
-          <Card className="gap-3 p-3">
-            <h3 className="mb-2 text-[10px] uppercase underline">Inspiration</h3>
+          <Card className="gap-4 p-5">
+            <h3 className="text-xs uppercase">Inspiration</h3>
             <p className="text-[10px] leading-relaxed">
               <a
                 href="https://www.youtube.com/@DriftAwayAmbience7"
@@ -22,10 +23,10 @@ export default function Acknowledgments() {
               the background; I love the music and the cozy Minecraft aesthetic paired with shaders
               and ambient sounds.
             </p>
-          </Card>
 
-          <Card className="gap-3 p-3">
-            <h3 className="mb-2 text-[10px] uppercase underline">Tools & Resources</h3>
+            <Separator />
+
+            <h3 className="text-xs uppercase">Tools & Resources</h3>
             <ul className="flex list-none flex-col gap-2 p-0 text-[10px] leading-relaxed">
               <li>
                 <a
@@ -83,10 +84,10 @@ export default function Acknowledgments() {
                 : The most performant glass component base I found.
               </li>
             </ul>
-          </Card>
 
-          <Card className="gap-3 p-3">
-            <h3 className="mb-2 text-[10px] uppercase underline">Learning & Tutorials</h3>
+            <Separator />
+
+            <h3 className="text-xs uppercase">Learning & Tutorials</h3>
             <ul className="flex list-none flex-col gap-2 p-0 text-[10px] leading-relaxed">
               <li>
                 <a
@@ -122,10 +123,41 @@ export default function Acknowledgments() {
                 : Provided the foundational skills for my voxel art modeling.
               </li>
             </ul>
-          </Card>
 
-          <Card className="gap-3 p-3">
-            <h3 className="mb-2 text-[10px] uppercase underline">Special Thanks</h3>
+            <Separator />
+
+            <h3 className="text-xs uppercase">Music</h3>
+            <p className="text-[10px] leading-relaxed">
+              <span className="italic">&ldquo;Deep Relaxation&rdquo;</span>
+              <br />
+              by{" "}
+              <a
+                href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1900045"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary font-bold underline transition-colors"
+              >
+                Kevin MacLeod
+              </a>{" "}
+              (incompetech.com)
+              <br />
+              Licensed under{" "}
+              <a
+                href="https://creativecommons.org/licenses/by/4.0/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary underline transition-colors"
+              >
+                Creative Commons Attribution 4.0 International
+              </a>
+              .
+              <br />
+              Edited for looping and background use.
+            </p>
+
+            <Separator />
+
+            <h3 className="text-xs uppercase">Special Thanks</h3>
             <p className="text-[10px] leading-relaxed">
               To my family and friends who supported me during late-night coding sessions and design
               iterations. And also to the big support and knowledge that ChatGPT gave me.

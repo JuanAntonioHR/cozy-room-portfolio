@@ -9,7 +9,7 @@ import { Howl } from "howler";
 
 import { useStore } from "@/store";
 
-export default function Main() {
+export default function AboutMe() {
   const isSoundEnabled = useStore((state) => state.isSoundEnabled);
 
   const buttonSound = new Howl({

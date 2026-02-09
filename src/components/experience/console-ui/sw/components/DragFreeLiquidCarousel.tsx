@@ -10,8 +10,10 @@ import { AnimatePresence, motion } from "motion/react";
 import { ProjectsInfo, ProjectInterface } from "@/data/ProjectsInfo";
 import CustomModal from "./CustomModal";
 import { Howl } from "howler";
+import { useStore } from "@/store";
 
 export default function DragFreeLiquidCarousel() {
+  const isSoundEnabled = useStore((state) => state.isSoundEnabled);
   const [selectedProject, setSelectedProject] = useState<ProjectInterface | null>(null);
   const [isClosing, setIsClosing] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -31,16 +33,18 @@ export default function DragFreeLiquidCarousel() {
   });
 
   const handleProjectClick = (project: ProjectInterface) => {
-    bubbleSound.rate(1);
-    bubbleSound.play();
     setSelectedProject(project);
     setIsOpen(true);
+    if (!isSoundEnabled) return;
+    bubbleSound.rate(1);
+    bubbleSound.play();
   };
 
   const handleClose = () => {
     if (!isOpen) return;
     setIsClosing(true);
     setIsOpen(false);
+    if (!isSoundEnabled) return;
     bubbleSound.rate(0.8);
     bubbleSound.play();
   };

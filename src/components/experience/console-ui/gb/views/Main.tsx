@@ -7,13 +7,18 @@ import Acknowledgments from "./Acknowledgments";
 import "@/app/retro-globals.css";
 import { Howl } from "howler";
 
+import { useStore } from "@/store";
+
 export default function Main() {
+  const isSoundEnabled = useStore((state) => state.isSoundEnabled);
+
   const buttonSound = new Howl({
     src: ["/sounds/button-press.mp3"],
     volume: 0.5,
   });
 
   const handleTabChange = () => {
+    if (!isSoundEnabled) return;
     const randomPitch = 0.9 + Math.random() * 0.3; // 0.9 – 1.2
     buttonSound.rate(randomPitch);
     buttonSound.play();

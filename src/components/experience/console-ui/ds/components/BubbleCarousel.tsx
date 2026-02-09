@@ -18,7 +18,7 @@ import BubbleHeader from "./BubbleHeader";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { Howl } from "howler";
-
+import { useStore } from "@/store";
 interface BubbleCarouselProps {
   items: React.ReactNode[];
 }
@@ -29,6 +29,8 @@ interface BubbleCardProps {
 }
 
 export const BubbleCarousel: React.FC<BubbleCarouselProps> = ({ items }) => {
+  const isSoundEnabled = useStore((state) => state.isSoundEnabled);
+
   const buttonSound = useMemo(
     () =>
       new Howl({
@@ -39,6 +41,7 @@ export const BubbleCarousel: React.FC<BubbleCarouselProps> = ({ items }) => {
   );
 
   const playButtonSound = () => {
+    if (!isSoundEnabled) return;
     const randomPitch = 0.9 + Math.random() * 0.3; // 0.9 – 1.2
     buttonSound.rate(randomPitch);
     buttonSound.play();

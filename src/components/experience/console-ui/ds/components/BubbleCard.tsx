@@ -6,6 +6,8 @@ import { Howl } from "howler";
 import { useMemo } from "react";
 import { ExperienceInfoType } from "@/data/ExperienceInfo";
 
+import { useStore } from "@/store";
+
 interface BubbleCardProps {
   isExpanded?: boolean;
   onToggle?: () => void;
@@ -13,6 +15,8 @@ interface BubbleCardProps {
 }
 
 export default function BubbleCard({ isExpanded, onToggle, experience }: BubbleCardProps) {
+  const isSoundEnabled = useStore((state) => state.isSoundEnabled);
+
   const openSound = useMemo(
     () =>
       new Howl({
@@ -22,6 +26,7 @@ export default function BubbleCard({ isExpanded, onToggle, experience }: BubbleC
   );
 
   const playCardSound = () => {
+    if (!isSoundEnabled) return;
     if (isExpanded) {
       openSound.rate(0.8);
       openSound.play();

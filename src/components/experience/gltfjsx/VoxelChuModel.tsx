@@ -10,6 +10,7 @@ import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import gsap from "gsap";
 import { Howl } from "howler";
+import { useStore } from "@/store";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -23,13 +24,14 @@ type GLTFResult = GLTF & {
 };
 
 export function VoxelChuModel(props: JSX.IntrinsicElements["group"]) {
+  const isSoundEnabled = useStore((state) => state.isSoundEnabled);
   const modelRef = useRef<THREE.Group>(null!);
   const [isHappy, setIsHappy] = useState(false);
 
   const soundRef = useRef(
     new Howl({
       src: ["/sounds/shine.mp3"],
-      volume: 0.8,
+      volume: 0.3,
       rate: 1.1,
     }),
   );
@@ -42,9 +44,9 @@ export function VoxelChuModel(props: JSX.IntrinsicElements["group"]) {
     if (isHappy) return;
     setIsHappy(true);
 
-    if (!hasPlayedSound.current) {
-      soundRef.current.play();
+    if (!hasPlayedSound.current && isSoundEnabled) {
       hasPlayedSound.current = true;
+      soundRef.current.play();
     }
 
     gsap.to(modelRef.current.scale, {

@@ -54,7 +54,7 @@ function Room() {
   }, [scene]);
 
   return (
-    <group>
+    <group onClick={(e) => e.stopPropagation()}>
       <primitive object={scene} scale={1} position={[0, -1, 0]} rotation={[0, 0.5 * Math.PI, 0]} />
       <Foliage instances={foliageInstances} />
       <VoxelChuModel />

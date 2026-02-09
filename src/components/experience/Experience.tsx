@@ -8,6 +8,7 @@ import Effects from "./Effects";
 import { Godray } from "./Godray";
 import HangingPlants from "./HangingPlant";
 import { SteamEmitter } from "./SteamEmitter";
+import EnviromentChanger from "./EnvironmentChanger";
 import { useStore } from "@/store";
 
 export default function Experience() {
@@ -15,6 +16,7 @@ export default function Experience() {
   return (
     <Suspense>
       <EnvironmentController />
+      <EnviromentChanger />
       <CameraRig />
       <Room />
       <HangingPlants />

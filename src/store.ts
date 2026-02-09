@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 
 export type CameraFocus = 'idle' | 'sw' | 'gb' | 'ds';
+export type Enviroment = 'daylight' | 'sunset' | 'cloudy'
 
 interface AppState {
   focus: CameraFocus;
@@ -12,6 +13,8 @@ interface AppState {
   setAudioSettings: (settings: { isMusicEnabled: boolean; isSoundEnabled: boolean }) => void;
   toggleMusic: () => void;
   toggleSound: () => void;
+  enviroment: Enviroment;
+  setEnviroment: (enviroment: Enviroment) => void;
 }
 
 export const useStore = create<AppState>((set) => ({
@@ -26,5 +29,7 @@ export const useStore = create<AppState>((set) => ({
   }),
   toggleMusic: () => set((state) => ({ isMusicEnabled: !state.isMusicEnabled })),
   toggleSound: () => set((state) => ({ isSoundEnabled: !state.isSoundEnabled })),
+  enviroment: 'daylight',
+  setEnviroment: (enviroment) => set({ enviroment }),
 }))
 

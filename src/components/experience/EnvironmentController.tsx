@@ -48,12 +48,6 @@ export default function EnvironmentController() {
     color: "#ffd2a6",
     intensity: { value: 5.5, min: 0, max: 10, step: 0.1 },
   });
-  const { xp, yp, zp, scale } = useControls("Particles", {
-    xp: { value: -4.7, min: -10, max: 10, step: 0.1 },
-    yp: { value: 0.3, min: -10, max: 10, step: 0.1 },
-    zp: { value: -1.6, min: -10, max: 10, step: 0.1 },
-    scale: { value: 1.3, min: 0.1, max: 5, step: 0.1 },
-  });
 
   return (
     <>
@@ -73,8 +67,8 @@ export default function EnvironmentController() {
       />
       <Sparkles
         count={15}
-        scale={[scale, scale, scale]}
-        position={[xp, yp, zp]}
+        scale={1.3}
+        position={[-4.7, 0.3, -1.6]}
         size={3}
         speed={0.2}
         opacity={0.4}

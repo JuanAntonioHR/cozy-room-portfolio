@@ -8,8 +8,10 @@ import Effects from "./Effects";
 import { Godray } from "./Godray";
 import HangingPlants from "./HangingPlant";
 import { SteamEmitter } from "./SteamEmitter";
+import { useStore } from "@/store";
 
 export default function Experience() {
+  const isEffectsEnabled = useStore((state) => state.isEffectsEnabled);
   return (
     <Suspense>
       <EnvironmentController />
@@ -17,7 +19,7 @@ export default function Experience() {
       <Room />
       <HangingPlants />
       <WindowBackground />
-      {/* <Effects /> */}
+      {isEffectsEnabled && <Effects />}
       <SteamEmitter position={[-0.85, -0.3, -0.8]} />
       <Godray
         settings={{

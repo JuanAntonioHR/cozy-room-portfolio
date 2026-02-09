@@ -1,5 +1,5 @@
 import { useControls } from "leva";
-import { Environment, Sparkles, SpotLight, useHelper } from "@react-three/drei";
+import { Environment, Sparkles, useHelper } from "@react-three/drei";
 import { useRef } from "react";
 import * as THREE from "three";
 

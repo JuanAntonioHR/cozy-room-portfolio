@@ -4,12 +4,12 @@ import dynamic from "next/dynamic";
 import { Canvas } from "@react-three/fiber";
 import { useStore } from "@/store";
 import { LiquidButton } from "@/components/kokonutui/liquid-glass-card";
-import { Volume2, VolumeX, DoorOpen, Pause, Play } from "lucide-react";
+import { Volume2, VolumeX, DoorOpen, Pause, Play, WandSparkles } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { Howl } from "howler";
 import { useEffect, useRef } from "react";
 import { AudioConsentDialog } from "@/components/AudioConsentDialog";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const Experience = dynamic(() => import("@/components/experience/Experience"), {
   ssr: false,
@@ -19,7 +19,9 @@ export default function Home() {
   const setFocus = useStore((state) => state.setFocus);
   const focus = useStore((state) => state.focus);
 
-  // Audio State from store
+  const isEffectsEnabled = useStore((state) => state.isEffectsEnabled);
+  const toggleEffects = useStore((state) => state.toggleEffects);
+
   const isMusicEnabled = useStore((state) => state.isMusicEnabled);
   const isSoundEnabled = useStore((state) => state.isSoundEnabled);
   const toggleMusic = useStore((state) => state.toggleMusic);
@@ -102,50 +104,78 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      <div className="absolute right-8 bottom-8 z-50 flex flex-col gap-4">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <LiquidButton
-                onClick={toggleSound}
-                aria-label={isSoundEnabled ? "Mute interface sounds" : "Unmute interface sounds"}
-                variant="ghost"
-                size="icon"
-                className={
-                  "size-20 cursor-pointer rounded-full bg-transparent text-zinc-300 " +
-                  "transition-colors hover:bg-zinc-200/70 dark:text-zinc-300 dark:hover:bg-zinc-800/70"
-                }
-              >
-                {isSoundEnabled ? <Volume2 className="size-9" /> : <VolumeX className="size-9" />}
-              </LiquidButton>
-            </TooltipTrigger>
-            <TooltipContent side="left">
-              <p>{isSoundEnabled ? "Disable interface sounds" : "Enable interface sounds"}</p>
-            </TooltipContent>
-          </Tooltip>
+      <div className="absolute bottom-8 left-8 z-50 flex flex-col gap-4">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <LiquidButton
+              onClick={toggleEffects}
+              aria-label={
+                isEffectsEnabled
+                  ? "Disable post-processing effects"
+                  : "Enable post-processing effects"
+              }
+              variant="ghost"
+              size="icon"
+              className={
+                "size-20 cursor-pointer rounded-full bg-transparent text-zinc-300 " +
+                "transition-colors hover:bg-zinc-200/70 dark:text-zinc-300 dark:hover:bg-zinc-800/70"
+              }
+            >
+              <WandSparkles className="size-9" />
+            </LiquidButton>
+          </TooltipTrigger>
+          <TooltipContent side="left">
+            <p>
+              {isEffectsEnabled
+                ? "Disable post-processing effects"
+                : "Enable post-processing effects"}
+            </p>
+          </TooltipContent>
+        </Tooltip>
+      </div>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <LiquidButton
-                onClick={toggleMusic}
-                aria-label={isMusicEnabled ? "Pause ambient music" : "Play ambient music"}
-                variant="ghost"
-                size="icon"
-                className={
-                  "size-20 cursor-pointer rounded-full bg-transparent text-zinc-300 " +
-                  "transition-colors hover:bg-zinc-200/70 disabled:opacity-50 dark:text-zinc-300 dark:hover:bg-zinc-800/70"
-                }
-              >
-                <div className="relative">
-                  {isMusicEnabled ? <Pause className="size-9" /> : <Play className="size-9" />}
-                </div>
-              </LiquidButton>
-            </TooltipTrigger>
-            <TooltipContent side="left">
-              <p>{isMusicEnabled ? "Pause ambient music" : "Play ambient music"}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+      <div className="absolute right-8 bottom-8 z-50 flex flex-col gap-4">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <LiquidButton
+              onClick={toggleSound}
+              aria-label={isSoundEnabled ? "Mute interface sounds" : "Unmute interface sounds"}
+              variant="ghost"
+              size="icon"
+              className={
+                "size-20 cursor-pointer rounded-full bg-transparent text-zinc-300 " +
+                "transition-colors hover:bg-zinc-200/70 dark:text-zinc-300 dark:hover:bg-zinc-800/70"
+              }
+            >
+              {isSoundEnabled ? <Volume2 className="size-9" /> : <VolumeX className="size-9" />}
+            </LiquidButton>
+          </TooltipTrigger>
+          <TooltipContent side="left">
+            <p>{isSoundEnabled ? "Disable interface sounds" : "Enable interface sounds"}</p>
+          </TooltipContent>
+        </Tooltip>
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <LiquidButton
+              onClick={toggleMusic}
+              aria-label={isMusicEnabled ? "Pause ambient music" : "Play ambient music"}
+              variant="ghost"
+              size="icon"
+              className={
+                "size-20 cursor-pointer rounded-full bg-transparent text-zinc-300 " +
+                "transition-colors hover:bg-zinc-200/70 disabled:opacity-50 dark:text-zinc-300 dark:hover:bg-zinc-800/70"
+              }
+            >
+              <div className="relative">
+                {isMusicEnabled ? <Pause className="size-9" /> : <Play className="size-9" />}
+              </div>
+            </LiquidButton>
+          </TooltipTrigger>
+          <TooltipContent side="left">
+            <p>{isMusicEnabled ? "Pause ambient music" : "Play ambient music"}</p>
+          </TooltipContent>
+        </Tooltip>
       </div>
     </main>
   );

@@ -1,7 +1,11 @@
+"use client";
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useMemo, useState, useRef } from "react";
 import * as THREE from "three";
 import { GodrayBuilder } from "./GodrayBuilder";
+import { enviromentSettings } from "@/data/EnviromentSettings";
+import { useStore } from "@/store";
+import gsap from "gsap";
 
 const GodrayMaterial = {
   uniforms: {
@@ -82,52 +86,98 @@ const GodrayMaterial = {
   `,
 };
 
+export interface GodraySettings {
+  position: [number, number, number];
+  rotation: [number, number, number];
+  color: string;
+  timeSpeed: number;
+  noiseScale: number;
+  topRadius: number;
+  bottomRadius: number;
+  height: number;
+  smoothBottom: number;
+  smoothTop: number;
+  fresnelPower: number;
+}
+
 export interface GodrayProps {
-  settings?: {
-    position?: [number, number, number];
-    rotation?: [number, number, number];
-    color?: string;
-    timeSpeed?: number;
-    noiseScale?: number;
-    topRadius?: number;
-    bottomRadius?: number;
-    height?: number;
-    smoothBottom?: number;
-    smoothTop?: number;
-    fresnelPower?: number;
-  };
+  settings?: GodraySettings;
   debug?: boolean;
 }
 
-export const Godray = ({ settings = {}, debug = false, ...props }: GodrayProps) => {
-  const [
-    {
-      position = [0, 0, 0],
-      rotation = [0, 0, 0],
-      color: godrayColor = "white",
-      timeSpeed = 0.1,
-      noiseScale = 5,
-      topRadius = 3,
-      bottomRadius = 2,
-      height = 10,
-      smoothBottom = 0.1,
-      smoothTop = 0.9,
-      fresnelPower = 5,
-    },
-    setSettings,
-  ] = useState(settings);
-
+export const Godray = ({ debug = false, ...props }: GodrayProps) => {
+  const [settings, setSettings] = useState<GodraySettings>(enviromentSettings[0].godraySettings);
+  const enviroment = useStore((state) => state.enviroment);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
+  const groupRef = useRef<THREE.Group>(null);
+  const tweenRef = useRef<gsap.core.Tween | null>(null);
+  const settingsRef = useRef(settings);
+
+  useEffect(() => {
+    settingsRef.current = settings;
+  }, [settings]);
+
+  useEffect(() => {
+    const target = enviromentSettings.find((s) => s.name === enviroment)?.godraySettings;
+    if (!target) return;
+
+    if (tweenRef.current) tweenRef.current.kill();
+
+    const startSettings = { ...settingsRef.current };
+
+    // We create a proxy object to handle the animation of nested arrays (position, rotation)
+    // and color smoothly with GSAP
+    const animProxy = {
+      ...startSettings,
+      posX: startSettings.position[0],
+      posY: startSettings.position[1],
+      posZ: startSettings.position[2],
+      rotX: startSettings.rotation[0],
+      rotY: startSettings.rotation[1],
+      rotZ: startSettings.rotation[2],
+    };
+
+    tweenRef.current = gsap.to(animProxy, {
+      posX: target.position[0],
+      posY: target.position[1],
+      posZ: target.position[2],
+      rotX: target.rotation[0],
+      rotY: target.rotation[1],
+      rotZ: target.rotation[2],
+      topRadius: target.topRadius,
+      bottomRadius: target.bottomRadius,
+      height: target.height,
+      timeSpeed: target.timeSpeed,
+      noiseScale: target.noiseScale,
+      smoothBottom: target.smoothBottom,
+      smoothTop: target.smoothTop,
+      fresnelPower: target.fresnelPower,
+      color: target.color,
+      duration: 1.2,
+      ease: "power2.inOut",
+      onUpdate: () => {
+        setSettings({
+          ...animProxy,
+          position: [animProxy.posX, animProxy.posY, animProxy.posZ],
+          rotation: [animProxy.rotX, animProxy.rotY, animProxy.rotZ],
+        } as GodraySettings);
+      },
+    });
+
+    return () => {
+      if (tweenRef.current) tweenRef.current.kill();
+    };
+  }, [enviroment]);
 
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
-      uColor: { value: new THREE.Color(godrayColor) },
-      uNoiseScale: { value: noiseScale },
-      uTimeSpeed: { value: timeSpeed },
-      uSmoothTop: { value: smoothTop },
-      uSmoothBottom: { value: smoothBottom },
-      uFresnelPower: { value: fresnelPower },
+      uColor: { value: new THREE.Color(settings.color) },
+      uNoiseScale: { value: settings.noiseScale },
+      uTimeSpeed: { value: settings.timeSpeed },
+      uSmoothTop: { value: settings.smoothTop },
+      uSmoothBottom: { value: settings.smoothBottom },
+      uFresnelPower: { value: settings.fresnelPower },
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
@@ -142,26 +192,33 @@ export const Godray = ({ settings = {}, debug = false, ...props }: GodrayProps) 
   useEffect(() => {
     if (materialRef.current) {
       const u = materialRef.current.uniforms;
-      u.uNoiseScale.value = noiseScale;
-      u.uTimeSpeed.value = timeSpeed;
-      u.uSmoothTop.value = smoothTop;
-      u.uSmoothBottom.value = smoothBottom;
-      u.uFresnelPower.value = fresnelPower;
-      if (godrayColor) {
-        u.uColor.value.set(godrayColor);
+      u.uNoiseScale.value = settings.noiseScale;
+      u.uTimeSpeed.value = settings.timeSpeed;
+      u.uSmoothTop.value = settings.smoothTop;
+      u.uSmoothBottom.value = settings.smoothBottom;
+      u.uFresnelPower.value = settings.fresnelPower;
+      if (settings.color) {
+        u.uColor.value.set(settings.color);
       }
     }
-  }, [noiseScale, godrayColor, timeSpeed, smoothTop, smoothBottom, fresnelPower]);
+  }, [settings]);
 
   return (
     <>
       {debug && <GodrayBuilder settings={settings} onChange={setSettings} />}
       <group
-        position={position as [number, number, number]}
-        rotation={[rotation[0] * Math.PI, rotation[1] * Math.PI, rotation[2] * Math.PI]}
+        ref={groupRef}
+        position={settings.position as [number, number, number]}
+        rotation={[
+          settings.rotation[0] * Math.PI,
+          settings.rotation[1] * Math.PI,
+          settings.rotation[2] * Math.PI,
+        ]}
       >
         <mesh {...props}>
-          <cylinderGeometry args={[topRadius, bottomRadius, height, 4, 1, false]} />
+          <cylinderGeometry
+            args={[settings.topRadius, settings.bottomRadius, settings.height, 4, 1, false]}
+          />
           <shaderMaterial
             ref={materialRef}
             transparent

@@ -26,7 +26,7 @@ export default function EnvironmentController() {
   const enviromentControls = useControls("Environment", {
     intensity: { value: 1, min: 0, max: 1, step: 0.01 },
     preset: {
-      value: "sunset" as EnvironmentPreset,
+      value: "lobby" as EnvironmentPreset,
       options: [
         "city",
         "dawn",

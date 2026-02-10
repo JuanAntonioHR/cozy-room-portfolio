@@ -84,12 +84,16 @@ export function VoxelChuModel(props: JSX.IntrinsicElements["group"]) {
         position={[-0.019, -0.017, 0.018]}
         rotation={[2.618, 0.688, -2.372]}
         scale={0.1}
+        castShadow
+        receiveShadow
       />
       <mesh
         geometry={nodes.Pika_Body.geometry}
         material={materials["palette.002"]}
         rotation={[Math.PI / 2, 0, 0]}
         scale={0.1}
+        castShadow
+        receiveShadow
       />
     </group>
   );

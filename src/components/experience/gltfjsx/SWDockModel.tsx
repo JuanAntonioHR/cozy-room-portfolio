@@ -30,11 +30,15 @@ export function SWDockModel(props: JSX.IntrinsicElements["group"]) {
       position={[-0.85, -0.39, -0.39]}
       scale={1.3}
       rotation={[0, 1.3, 0]}
-      castShadow
-      receiveShadow
       raycast={() => null}
     >
-      <mesh raycast={() => null} geometry={nodes.SW_Dock.geometry} material={materials.palette} />
+      <mesh
+        raycast={() => null}
+        geometry={nodes.SW_Dock.geometry}
+        material={materials.palette}
+        castShadow
+        receiveShadow
+      />
     </group>
   );
 }

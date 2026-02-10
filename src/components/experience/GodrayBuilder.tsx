@@ -1,19 +1,6 @@
 import { button, useControls } from "leva";
 import { useEffect } from "react";
-
-export interface GodraySettings {
-  position?: [number, number, number];
-  rotation?: [number, number, number];
-  color?: string;
-  topRadius?: number;
-  bottomRadius?: number;
-  height?: number;
-  timeSpeed?: number;
-  noiseScale?: number;
-  smoothBottom?: number;
-  smoothTop?: number;
-  fresnelPower?: number;
-}
+import { GodraySettings } from "./Godray";
 
 interface GodrayBuilderProps {
   settings: GodraySettings;

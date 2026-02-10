@@ -1,66 +1,111 @@
-import { useControls } from "leva";
-import { Environment, Sparkles, useHelper } from "@react-three/drei";
-import { useRef } from "react";
-import * as THREE from "three";
-
-type EnvironmentPreset =
-  | "night"
-  | "city"
-  | "dawn"
-  | "forest"
-  | "park"
-  | "studio"
-  | "warehouse"
-  | "apartment"
-  | "lobby"
-  | "sunset";
+import { Environment, Sparkles } from "@react-three/drei";
+import { enviromentSettings } from "@/data/EnviromentSettings";
+import { useStore } from "@/store";
+import { useEffect, useState, useRef } from "react";
+import gsap from "gsap";
 
 export default function EnvironmentController() {
-  const isDev = process.env.NODE_ENV === "development";
-  const dirLightRef = useRef<THREE.DirectionalLight>(null!);
-  const spotLightRef = useRef<THREE.SpotLight>(null!);
-
-  useHelper(isDev ? dirLightRef : null, THREE.DirectionalLightHelper, 1, "yellow");
-  useHelper(isDev ? spotLightRef : null, THREE.SpotLightHelper);
-
-  const enviromentControls = useControls("Environment", {
-    intensity: { value: 1, min: 0, max: 1, step: 0.01 },
-    preset: {
-      value: "lobby" as EnvironmentPreset,
-      options: [
-        "city",
-        "dawn",
-        "forest",
-        "night",
-        "park",
-        "studio",
-        "warehouse",
-        "apartment",
-        "lobby",
-        "sunset",
-      ],
-    },
+  // const enviromentControls = useControls("Environment", {
+  //   intensity: { value: 1, min: 0, max: 1, step: 0.01 },
+  //   preset: {
+  //     value: "lobby" as EnvironmentPreset,
+  //     options: [
+  //       "city",
+  //       "dawn",
+  //       "forest",
+  //       "night",
+  //       "park",
+  //       "studio",
+  //       "warehouse",
+  //       "apartment",
+  //       "lobby",
+  //       "sunset",
+  //     ],
+  //   },
+  // });
+  // const { x, y, z, color, intensity } = useControls("Directional Light", {
+  //   x: { value: -6.1, min: -10, max: 10, step: 0.1 },
+  //   y: { value: 4.9, min: -10, max: 10, step: 0.1 },
+  //   z: { value: 1.9, min: -10, max: 10, step: 0.1 },
+  //   color: "#ffd2a6",
+  //   intensity: { value: 5.5, min: 0, max: 10, step: 0.1 },
+  // });
+  const enviroment = useStore((state) => state.enviroment);
+  const isEffectsEnabled = useStore((state) => state.isEffectsEnabled);
+  const [activeSettings, setActiveSettings] = useState({
+    intensity: enviromentSettings[0].intensity,
+    dirIntensity: enviromentSettings[0].directionalLight.intensity,
+    dirPos: enviromentSettings[0].directionalLight.position,
+    dirColor: enviromentSettings[0].directionalLight.color,
+    preset: enviromentSettings[0].preset,
   });
-  const { x, y, z, color, intensity } = useControls("Directional Light", {
-    x: { value: -6.1, min: -10, max: 10, step: 0.1 },
-    y: { value: 4.9, min: -10, max: 10, step: 0.1 },
-    z: { value: 1.9, min: -10, max: 10, step: 0.1 },
-    color: "#ffd2a6",
-    intensity: { value: 5.5, min: 0, max: 10, step: 0.1 },
-  });
+
+  const tweenRef = useRef<gsap.core.Tween | null>(null);
+  const settingsRef = useRef(activeSettings);
+
+  useEffect(() => {
+    settingsRef.current = activeSettings;
+  }, [activeSettings]);
+
+  useEffect(() => {
+    const target = enviromentSettings.find((s) => s.name === enviroment);
+    if (!target) return;
+
+    if (tweenRef.current) tweenRef.current.kill();
+
+    const startSettings = { ...settingsRef.current };
+
+    const animProxy = {
+      intensity: startSettings.intensity,
+      dirIntensity: startSettings.dirIntensity,
+      dirPosX: startSettings.dirPos[0],
+      dirPosY: startSettings.dirPos[1],
+      dirPosZ: startSettings.dirPos[2],
+      dirColor: startSettings.dirColor,
+      preset: startSettings.preset,
+    };
+
+    tweenRef.current = gsap.to(animProxy, {
+      intensity: target.intensity,
+      dirIntensity: target.directionalLight.intensity,
+      dirPosX: target.directionalLight.position[0],
+      dirPosY: target.directionalLight.position[1],
+      dirPosZ: target.directionalLight.position[2],
+      dirColor: target.directionalLight.color,
+      duration: 1.2,
+      ease: "power2.inOut",
+      onStart: () => {
+        setActiveSettings((prev) => ({ ...prev, preset: target.preset }));
+      },
+      onUpdate: () => {
+        setActiveSettings({
+          intensity: animProxy.intensity,
+          dirIntensity: animProxy.dirIntensity,
+          dirPos: [animProxy.dirPosX, animProxy.dirPosY, animProxy.dirPosZ],
+          dirColor: animProxy.dirColor,
+          preset: target.preset,
+        });
+      },
+    });
+
+    return () => {
+      if (tweenRef.current) tweenRef.current.kill();
+    };
+  }, [enviroment]);
 
   return (
     <>
       <Environment
-        preset={enviromentControls.preset as EnvironmentPreset}
+        preset={activeSettings.preset}
         background={false}
-        environmentIntensity={enviromentControls.intensity}
+        environmentIntensity={
+          isEffectsEnabled ? activeSettings.intensity : activeSettings.intensity / 2
+        }
       />
       <directionalLight
-        ref={dirLightRef}
-        position={[x, y, z]}
-        intensity={intensity}
-        color={color}
+        position={activeSettings.dirPos}
+        intensity={activeSettings.dirIntensity}
+        color={activeSettings.dirColor}
         castShadow
         shadow-mapSize={[2048, 2048]}
         shadow-radius={4}

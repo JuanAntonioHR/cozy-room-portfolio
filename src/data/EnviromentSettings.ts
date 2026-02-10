@@ -3,7 +3,7 @@ import { GodraySettings } from "@/components/experience/Godray";
 export interface EnviromentSettings {
     name: string;
     intensity: number;
-    preset: string;
+    preset: EnvironmentPreset;
     directionalLight: {
         position: [number, number, number];
         intensity: number;
@@ -11,6 +11,18 @@ export interface EnviromentSettings {
     };
     godraySettings: GodraySettings;
 }
+
+export type EnvironmentPreset =
+  | "night"
+  | "city"
+  | "dawn"
+  | "forest"
+  | "park"
+  | "studio"
+  | "warehouse"
+  | "apartment"
+  | "lobby"
+  | "sunset";
 
 export const enviromentSettings: EnviromentSettings[] = [
     {

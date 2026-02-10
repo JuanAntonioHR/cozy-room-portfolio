@@ -23,7 +23,7 @@ export default function Experience() {
       <WindowBackground />
       {isEffectsEnabled && <Effects />}
       <SteamEmitter position={[-0.85, -0.3, -0.8]} />
-      <Godray debug />
+      <Godray />
     </Suspense>
   );
 }

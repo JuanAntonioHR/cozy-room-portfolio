@@ -7,6 +7,7 @@ import { GLTF } from "three-stdlib";
 import gsap from "gsap";
 import { useStore } from "@/store";
 import ConsoleSWContent from "../console-ui/sw/ConsoleSWContent";
+import TitleLabelThree from "../console-ui/components/TitelLabelThree";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -142,6 +143,9 @@ export function VoxelSWModel(props: JSX.IntrinsicElements["group"]) {
         {focus === "sw" && <ConsoleSWContent />}
         <Outlines visible={hovered && focus === "idle"} thickness={3} color="white" />
       </mesh>
+      {hovered && focus === "idle" && (
+        <TitleLabelThree title="Projects" position={[-0.11, 0.21, 0]} />
+      )}
     </group>
   );
 }

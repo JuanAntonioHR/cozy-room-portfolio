@@ -1,9 +1,9 @@
-import ProjectsCarousel from "@/components/experience/console-ui/sw/views/ProjectsCarousel";
+import TitleLabel from "@/components/experience/console-ui/components/TitleLabel";
 
 function page() {
   return (
     <div className={`h-[512px] w-[640px]`}>
-      <ProjectsCarousel />
+      <TitleLabel title="TitleLabel" />
     </div>
   );
 }

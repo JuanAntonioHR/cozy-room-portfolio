@@ -9,6 +9,7 @@ import { GLTF } from "three-stdlib";
 import gsap from "gsap";
 import { useStore } from "@/store";
 import Console3DSContent from "../console-ui/ds/Console3DSContent";
+import TitleLabelThree from "../console-ui/components/TitelLabelThree";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -125,6 +126,9 @@ export function Voxel3dsModel(props: JSX.IntrinsicElements["group"]) {
         </mesh>
         <Outlines visible={hovered && focus === "idle"} thickness={3} color="white" />
       </mesh>
+      {hovered && focus === "idle" && (
+        <TitleLabelThree title="Experience" position={[-0.15, 0.27, 0]} />
+      )}
     </group>
   );
 }

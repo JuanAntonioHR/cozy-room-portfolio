@@ -9,6 +9,7 @@ import { GLTF } from "three-stdlib";
 import gsap from "gsap";
 import { useStore } from "@/store";
 import ConsoleGBContent from "../console-ui/gb/ConsoleGBContent";
+import TitleLabelThree from "../console-ui/components/TitelLabelThree";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -131,6 +132,7 @@ export function VoxelGBModel(props: JSX.IntrinsicElements["group"]) {
         {focus === "gb" && <ConsoleGBContent />}
         <Outlines visible={hovered && focus === "idle"} thickness={3} color="white" />
       </mesh>
+      {hovered && focus === "idle" && <TitleLabelThree title="About" position={[-0.05, 0.25, 0]} />}
     </group>
   );
 }

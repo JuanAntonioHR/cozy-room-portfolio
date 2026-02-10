@@ -14,7 +14,13 @@ export default function Bibliography() {
       <Card className="flex h-full flex-col gap-2 border-none bg-transparent pb-0 shadow-none">
         <CardHeader className="flex shrink-0 flex-row items-center gap-4 p-4">
           <div className="border-foreground relative h-24 w-24 overflow-hidden border-4">
-            <Image src="/images/profile.png" alt="Profile picture" fill className="object-cover" />
+            <Image
+              src="/images/profile.png"
+              alt="Profile picture"
+              width={240}
+              height={240}
+              className="object-cover"
+            />
           </div>
           <div className="flex flex-1 flex-col gap-2">
             <CardTitle className="text-xl">Juan Antonio HR</CardTitle>

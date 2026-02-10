@@ -42,7 +42,7 @@ export const enviromentSettings: EnviromentSettings[] = [
           bottomRadius: 0.8,
           height: 2.5,
           timeSpeed: 0.1,
-          noiseScale: 5,
+          noiseScale: 4.5,
           smoothBottom: 0.4,
           smoothTop: 0.7,
           fresnelPower: 3,

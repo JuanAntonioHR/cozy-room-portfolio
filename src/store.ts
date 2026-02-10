@@ -6,6 +6,8 @@ export type Enviroment = 'daylight' | 'sunset' | 'cloudy'
 interface AppState {
   focus: CameraFocus;
   setFocus: (focus: CameraFocus) => void;
+  isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void;
   isEffectsEnabled: boolean;
   toggleEffects: () => void;
   isMusicEnabled: boolean;
@@ -20,6 +22,8 @@ interface AppState {
 export const useStore = create<AppState>((set) => ({
   focus: 'idle',
   setFocus: (focus) => set({ focus }),
+  isLoading: true,
+  setIsLoading: (isLoading) => set({ isLoading }),
   isEffectsEnabled: true,
   toggleEffects: () => set((state) => ({ isEffectsEnabled: !state.isEffectsEnabled })),
   isMusicEnabled: false,

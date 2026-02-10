@@ -10,6 +10,7 @@ import { Howl } from "howler";
 import { useEffect, useRef } from "react";
 import { AudioConsentDialog } from "@/components/AudioConsentDialog";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { GlobalLoader } from "@/components/GlobalLoader";
 
 const Experience = dynamic(() => import("@/components/experience/Experience"), {
   ssr: false,
@@ -62,6 +63,7 @@ export default function Home() {
 
   return (
     <main className="h-screen w-screen">
+      <GlobalLoader />
       <Canvas
         shadows="soft"
         camera={{ position: [0, 0, 0], fov: 45 }}

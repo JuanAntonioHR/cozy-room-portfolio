@@ -97,7 +97,7 @@ export default function EnvironmentController() {
     <>
       <Environment
         preset={activeSettings.preset}
-        background={false}
+        background
         environmentIntensity={
           isEffectsEnabled ? activeSettings.intensity : activeSettings.intensity / 2
         }

@@ -10,6 +10,7 @@ import gsap from "gsap";
 import { useStore } from "@/store";
 import ConsoleGBContent from "../console-ui/gb/ConsoleGBContent";
 import TitleLabelThree from "../console-ui/components/TitelLabelThree";
+import { useIdleHint } from "@/hooks/useIdleHint";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -31,6 +32,35 @@ export function VoxelGBModel(props: JSX.IntrinsicElements["group"]) {
   const groupRef = useRef<THREE.Group>(null!);
   const cartridgeRef = useRef<THREE.Mesh>(null!);
   const [hovered, setHovered] = useState(false);
+
+  const idleShake = () => {
+    if (!groupRef.current) return;
+    if (focus !== "idle" || hovered) return;
+
+    gsap
+      .timeline()
+      .to(groupRef.current.rotation, {
+        y: "+=0.2",
+        duration: 0.08,
+        ease: "power1.inOut",
+      })
+      .to(groupRef.current.rotation, {
+        y: "-=0.4",
+        duration: 0.12,
+        ease: "power1.inOut",
+      })
+      .to(groupRef.current.rotation, {
+        y: "+=0.2",
+        duration: 0.08,
+        ease: "power1.inOut",
+      });
+  };
+
+  useIdleHint({
+    delay: 6000,
+    enabled: focus === "idle",
+    onIdle: idleShake,
+  });
 
   useEffect(() => {
     if (focus === "gb") {

@@ -73,19 +73,22 @@ export default function BubbleCard({ isExpanded, onToggle, experience }: BubbleC
             </div>
           </div>
 
-          <div
-            className={cn("text-xs transition-all duration-300", isExpanded ? "" : "line-clamp-2")}
+          <p
+            className={cn(
+              "max-w-[55ch] text-xs whitespace-pre-line text-zinc-200 transition-all duration-300",
+              isExpanded ? "leading-[1.6]" : "line-clamp-2",
+            )}
           >
             {experience.description}
-          </div>
+          </p>
 
-          <div className="flex flex-row gap-2">
+          <div className={cn("flex flex-wrap gap-2", !isExpanded && "max-h-[28px]")}>
             {experience.skills.map((skill, index) => (
               <LiquidGlassCard
                 key={index}
                 className="flex w-fit flex-row items-center rounded-full border border-zinc-200/50 px-2 py-1 text-zinc-50 shadow-xl"
               >
-                <p className="text-[10px]">{skill}</p>
+                <p className="line-clamp-1 text-[10px] text-nowrap">{skill}</p>
               </LiquidGlassCard>
             ))}
           </div>

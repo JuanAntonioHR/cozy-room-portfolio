@@ -45,7 +45,7 @@ export default function BubbleCard({ isExpanded, onToggle, experience }: BubbleC
         }
       }}
       className={cn(
-        "flex h-full flex-row items-start border border-zinc-200/50 px-6 text-lg text-zinc-50 shadow-xl transition-all duration-300",
+        "flex h-full flex-row items-start rounded-2xl border border-zinc-200/50 px-6 text-lg text-zinc-50 shadow-xl transition-all duration-300",
         !isExpanded && "cursor-pointer select-none",
       )}
     >
@@ -54,7 +54,7 @@ export default function BubbleCard({ isExpanded, onToggle, experience }: BubbleC
         alt={experience.company}
         width={120}
         height={120}
-        className="z-10 rounded-lg"
+        className="z-10 rounded-xl"
       />
       <div className="flex h-full flex-1 justify-between">
         <div

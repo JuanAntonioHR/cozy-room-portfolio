@@ -50,7 +50,7 @@ export default function LiquidCard({
           variants={imageVariants}
           transition={{ type: "spring", stiffness: 200, damping: 18 }}
         >
-          <Image src={image} alt={title} width={160} height={160} className="rounded-xl" />
+          <Image src={image} alt={title} width={160} height={160} className="rounded-2xl" />
         </motion.div>
       </LiquidGlassCard>
     </motion.button>

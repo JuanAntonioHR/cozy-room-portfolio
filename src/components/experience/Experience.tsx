@@ -12,8 +12,6 @@ import EnviromentChanger from "./EnvironmentChanger";
 import { useStore } from "@/store";
 
 export default function Experience() {
-  const isEffectsEnabled = useStore((state) => state.isEffectsEnabled);
-
   return (
     <Suspense>
       <EnvironmentController />
@@ -22,9 +20,14 @@ export default function Experience() {
       <Room />
       <HangingPlants />
       <WindowBackground />
-      {isEffectsEnabled && <Effects />}
+      <EffectsWrapper />
       <SteamEmitter position={[-0.85, -0.3, -0.8]} />
       <Godray />
     </Suspense>
   );
+}
+
+function EffectsWrapper() {
+  const isEffectsEnabled = useStore((state) => state.isEffectsEnabled);
+  return isEffectsEnabled ? <Effects /> : null;
 }

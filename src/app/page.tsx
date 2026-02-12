@@ -6,9 +6,8 @@ import { useStore } from "@/store";
 import { LiquidButton } from "@/components/kokonutui/liquid-glass-card";
 import { Volume2, VolumeX, DoorOpen, Pause, Play, WandSparkles } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { Howl } from "howler";
-import { useEffect, useRef } from "react";
-import { AudioConsentDialog } from "@/components/AudioConsentDialog";
+import { Howl, Howler } from "howler";
+import { useEffect, useRef, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { GlobalLoader } from "@/components/GlobalLoader";
 import { OrientationPrompt } from "@/components/OrientationPrompt";
@@ -25,43 +24,42 @@ export default function Home() {
   const isEffectsEnabled = useStore((state) => state.isEffectsEnabled);
   const toggleEffects = useStore((state) => state.toggleEffects);
 
-  const isMusicEnabled = useStore((state) => state.isMusicEnabled);
   const isSoundEnabled = useStore((state) => state.isSoundEnabled);
-  const toggleMusic = useStore((state) => state.toggleMusic);
   const toggleSound = useStore((state) => state.toggleSound);
 
-  const soundRef = useRef<Howl | null>(null);
+  const musicRef = useRef<Howl | null>(null);
+  const [isMusicEnabled, setIsMusicEnabled] = useState(false);
 
   useEffect(() => {
-    soundRef.current = new Howl({
+    musicRef.current = new Howl({
       src: ["/sounds/Deep-Relaxation.ogg", "/sounds/Deep-Relaxation.mp3"],
       loop: true,
       volume: 0,
     });
 
     return () => {
-      soundRef.current?.unload();
+      musicRef.current?.unload();
     };
   }, []);
 
-  useEffect(() => {
-    const sound = soundRef.current;
-    if (!sound) return;
+  const toggleMusic = () => {
+    const music = musicRef.current;
+    if (!music) return;
+
+    if (Howler.ctx.state === "suspended") {
+      Howler.ctx.resume();
+    }
 
     if (isMusicEnabled) {
-      if (!sound.playing()) {
-        sound.play();
-      }
-      sound.fade(sound.volume(), 0.5, 1000);
+      music.fade(music.volume(), 0, 500);
+      setTimeout(() => music.pause(), 500);
+      setIsMusicEnabled(false);
     } else {
-      sound.fade(sound.volume(), 0, 1000);
-      setTimeout(() => {
-        if (!isMusicEnabled) {
-          sound.pause();
-        }
-      }, 1000);
+      if (!music.playing()) music.play();
+      music.fade(music.volume(), 0.7, 1000);
+      setIsMusicEnabled(true);
     }
-  }, [isMusicEnabled]);
+  };
 
   return (
     <main className="h-screen w-screen">
@@ -77,7 +75,6 @@ export default function Home() {
         <Experience />
       </Canvas>
 
-      <AudioConsentDialog />
       <OrientationPrompt />
 
       <AnimatePresence>

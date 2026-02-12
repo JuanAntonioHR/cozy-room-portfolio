@@ -5,12 +5,13 @@ import LiquidHeader from "./LiquidHeader";
 import useEmblaCarousel from "embla-carousel-react";
 import LiquidCard from "./LiquidCard";
 import { LiquidButton } from "@/components/kokonutui/liquid-glass-card";
-import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { ProjectsInfo, ProjectInterface } from "@/data/ProjectsInfo";
 import CustomModal from "./CustomModal";
 import { Howl } from "howler";
 import { useStore } from "@/store";
+import { SiGithub } from "@icons-pack/react-simple-icons";
+import { ExternalLink } from "lucide-react";
 
 export default function DragFreeLiquidCarousel() {
   const isSoundEnabled = useStore((state) => state.isSoundEnabled);
@@ -60,7 +61,7 @@ export default function DragFreeLiquidCarousel() {
             <div key={index} className="flex w-full flex-[0_0_30%] justify-center">
               <LiquidCard
                 title={project.title}
-                image={project.image}
+                image={project.images[0]}
                 onClick={() => handleProjectClick(project)}
                 isVisible={!isOpen}
                 onMouseEnter={() => setHoveredTitle(project.title)}
@@ -71,22 +72,54 @@ export default function DragFreeLiquidCarousel() {
         </div>
       </div>
       <div className="z-10 flex flex-row items-center gap-8 px-8">
-        <LiquidButton
-          variant="ghost"
-          size="icon"
-          className="size-14 rounded-full bg-transparent transition-all hover:bg-zinc-200/70"
-          onClick={() => {
-            window.open("https://github.com/JuanAntonioHR", "_blank");
-          }}
-        >
-          <Image
-            src="/images/profile-hd.png"
-            alt="Profile Pic"
-            width={40}
-            height={40}
-            className="rounded-full"
-          />
-        </LiquidButton>
+        <div className="flex flex-row items-center gap-5">
+          <LiquidButton
+            variant="ghost"
+            size="icon"
+            className="size-14 rounded-full bg-transparent transition-all hover:bg-zinc-200/70"
+            onClick={() => {
+              if (isOpen && selectedProject?.url) {
+                window.open(selectedProject.url, "_blank");
+              }
+            }}
+          >
+            <AnimatePresence mode="wait">
+              {isOpen && selectedProject?.url && (
+                <motion.div
+                  initial={{ opacity: 0, filter: "blur(10px)" }}
+                  animate={{ opacity: 1, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, filter: "blur(10px)" }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ExternalLink className="size-7 text-zinc-50" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </LiquidButton>
+          <LiquidButton
+            variant="ghost"
+            size="icon"
+            className="size-14 rounded-full bg-transparent transition-all hover:bg-zinc-200/70"
+            onClick={() => {
+              if (isOpen && selectedProject?.github) {
+                window.open(selectedProject.github, "_blank");
+              }
+            }}
+          >
+            <AnimatePresence mode="wait">
+              {isOpen && selectedProject?.github && (
+                <motion.div
+                  initial={{ opacity: 0, filter: "blur(10px)" }}
+                  animate={{ opacity: 1, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, filter: "blur(10px)" }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <SiGithub className="size-7 text-zinc-50" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </LiquidButton>
+        </div>
         <div className="relative overflow-visible">
           <AnimatePresence mode="wait">
             <motion.h1

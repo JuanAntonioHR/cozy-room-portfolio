@@ -12,6 +12,8 @@ const FOLIAGE_TYPES = [
   { id: 3, texture: "/textures/foliage/Foliage3.png", planes: 2 },
 ];
 
+FOLIAGE_TYPES.forEach((t) => useTexture.preload(t.texture));
+
 export interface FoliageInstance {
   type: number;
   position: [number, number, number];

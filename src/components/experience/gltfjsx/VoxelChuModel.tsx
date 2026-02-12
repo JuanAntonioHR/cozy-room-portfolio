@@ -28,13 +28,18 @@ export function VoxelChuModel(props: JSX.IntrinsicElements["group"]) {
   const modelRef = useRef<THREE.Group>(null!);
   const [isHappy, setIsHappy] = useState(false);
 
-  const soundRef = useRef(
-    new Howl({
-      src: ["/sounds/shine.mp3"],
-      volume: 0.3,
-      rate: 1.1,
-    }),
-  );
+  const soundRef = useRef<Howl | null>(null);
+
+  const getSound = () => {
+    if (!soundRef.current) {
+      soundRef.current = new Howl({
+        src: ["/sounds/shine.mp3"],
+        volume: 0.3,
+        rate: 1.1,
+      });
+    }
+    return soundRef.current;
+  };
 
   const hasPlayedSound = useRef(false);
 
@@ -46,7 +51,7 @@ export function VoxelChuModel(props: JSX.IntrinsicElements["group"]) {
 
     if (!hasPlayedSound.current && isSoundEnabled) {
       hasPlayedSound.current = true;
-      soundRef.current.play();
+      getSound().play();
     }
 
     gsap.to(modelRef.current.scale, {

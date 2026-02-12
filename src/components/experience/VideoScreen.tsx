@@ -3,6 +3,8 @@
 import { useVideoTexture } from "@react-three/drei";
 import * as THREE from "three";
 
+const WHITE = new THREE.Color("#ffffff");
+
 export function VideoScreen() {
   const texture = useVideoTexture("/videos/M_Gameplay.mp4", {
     unsuspend: "canplay",
@@ -19,7 +21,7 @@ export function VideoScreen() {
         map-generateMipmaps={false}
         map-minFilter={THREE.LinearFilter}
         map-magFilter={THREE.LinearFilter}
-        emissive={new THREE.Color("#ffffff")}
+        emissive={WHITE}
         emissiveMap={texture}
         emissiveIntensity={0.8}
         toneMapped={false}

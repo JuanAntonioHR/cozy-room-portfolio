@@ -3,11 +3,21 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useStore } from "@/store";
 import { useProgress } from "@react-three/drei";
+import { useEffect } from "react";
 
 export function GlobalLoader() {
   const isLoading = useStore((state) => state.isLoading);
+  const setIsLoading = useStore((state) => state.setIsLoading);
 
   const { progress } = useProgress();
+
+  useEffect(() => {
+    if (progress === 100) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+    }
+  }, [progress, setIsLoading]);
 
   return (
     <AnimatePresence>

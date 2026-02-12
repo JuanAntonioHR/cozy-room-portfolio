@@ -76,7 +76,7 @@ export default function DragFreeLiquidCarousel() {
           <LiquidButton
             variant="ghost"
             size="icon"
-            className="size-14 rounded-full bg-transparent transition-all hover:bg-zinc-200/70"
+            className="size-14 rounded-full bg-transparent text-zinc-50 transition-all hover:bg-zinc-200/70 hover:text-zinc-800"
             onClick={() => {
               if (isOpen && selectedProject?.url) {
                 window.open(selectedProject.url, "_blank");
@@ -91,7 +91,7 @@ export default function DragFreeLiquidCarousel() {
                   exit={{ opacity: 0, filter: "blur(10px)" }}
                   transition={{ duration: 0.2 }}
                 >
-                  <ExternalLink className="size-7 text-zinc-50" />
+                  <ExternalLink className="size-7" />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -99,7 +99,7 @@ export default function DragFreeLiquidCarousel() {
           <LiquidButton
             variant="ghost"
             size="icon"
-            className="size-14 rounded-full bg-transparent transition-all hover:bg-zinc-200/70"
+            className="size-14 rounded-full bg-transparent text-zinc-50 transition-all hover:bg-zinc-200/70 hover:text-zinc-800"
             onClick={() => {
               if (isOpen && selectedProject?.github) {
                 window.open(selectedProject.github, "_blank");
@@ -114,7 +114,7 @@ export default function DragFreeLiquidCarousel() {
                   exit={{ opacity: 0, filter: "blur(10px)" }}
                   transition={{ duration: 0.2 }}
                 >
-                  <SiGithub className="size-7 text-zinc-50" />
+                  <SiGithub className="size-7" />
                 </motion.div>
               )}
             </AnimatePresence>

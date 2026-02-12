@@ -31,7 +31,7 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
           {images.map((src, index) => (
             <div
               key={index}
-              className="relative min-w-0 flex-[0_0_100%] border-x-4 border-zinc-200/0"
+              className="relative min-w-0 flex-[0_0_100%]"
               style={{ aspectRatio: "1920 / 877" }}
             >
               <Image

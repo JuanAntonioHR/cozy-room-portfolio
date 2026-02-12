@@ -3,17 +3,7 @@ import { create } from 'zustand'
 export type CameraFocus = 'idle' | 'sw' | 'gb' | 'ds';
 export type Enviroment = 'daylight' | 'sunset' | 'cloudy'
 
-const enviromentInitialValue = () => {
-  const date = new Date();
-  const hours = date.getHours();
-  if (hours >= 6 && hours < 17) {
-    return 'daylight' as Enviroment;
-  } else if (hours >= 17 && hours < 18 || hours >= 5 && hours < 6) {
-    return 'sunset' as Enviroment;
-  } else {
-    return 'cloudy' as Enviroment;
-  }
-}
+const DEFAULT_ENVIROMENT = 'daylight';
 
 interface AppState {
   focus: CameraFocus;
@@ -45,7 +35,7 @@ export const useStore = create<AppState>((set) => ({
   }),
   toggleMusic: () => set((state) => ({ isMusicEnabled: !state.isMusicEnabled })),
   toggleSound: () => set((state) => ({ isSoundEnabled: !state.isSoundEnabled })),
-  enviroment: enviromentInitialValue(),
+  enviroment: DEFAULT_ENVIROMENT,
   setEnviroment: (enviroment) => set({ enviroment }),
 }))
 

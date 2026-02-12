@@ -12,6 +12,7 @@ import { AudioConsentDialog } from "@/components/AudioConsentDialog";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { GlobalLoader } from "@/components/GlobalLoader";
 import { OrientationPrompt } from "@/components/OrientationPrompt";
+import { HydrationWatcher } from "@/components/HydrationWatcher";
 
 const Experience = dynamic(() => import("@/components/experience/Experience"), {
   ssr: false,
@@ -64,6 +65,7 @@ export default function Home() {
 
   return (
     <main className="h-screen w-screen">
+      <HydrationWatcher />
       <GlobalLoader />
       <Canvas
         shadows="soft"

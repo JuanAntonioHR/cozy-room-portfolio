@@ -45,10 +45,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <TooltipProvider>
-        <body className={`${outfit.className} antialiased`}>{children}</body>
-      </TooltipProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${outfit.className} antialiased`}>
+        <TooltipProvider>{children}</TooltipProvider>
+      </body>
     </html>
   );
 }

@@ -11,6 +11,7 @@ import { useEffect, useRef } from "react";
 import { AudioConsentDialog } from "@/components/AudioConsentDialog";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { GlobalLoader } from "@/components/GlobalLoader";
+import { OrientationPrompt } from "@/components/OrientationPrompt";
 
 const Experience = dynamic(() => import("@/components/experience/Experience"), {
   ssr: false,
@@ -75,6 +76,7 @@ export default function Home() {
       </Canvas>
 
       <AudioConsentDialog />
+      <OrientationPrompt />
 
       <AnimatePresence>
         {focus !== "idle" && (

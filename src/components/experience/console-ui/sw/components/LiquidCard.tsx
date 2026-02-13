@@ -50,7 +50,7 @@ export default function LiquidCard({
           variants={imageVariants}
           transition={{ type: "spring", stiffness: 200, damping: 18 }}
         >
-          <div className="relative size-35">
+          <div className="relative size-32">
             <Image src={image} alt={title} fill className="rounded-2xl object-cover" />
           </div>
         </motion.div>

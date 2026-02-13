@@ -12,6 +12,7 @@ import { Howl } from "howler";
 import { useStore } from "@/store";
 import { SiGithub } from "@icons-pack/react-simple-icons";
 import { ExternalLink } from "lucide-react";
+import useEmblaCarouselWheelGestures from "embla-carousel-wheel-gestures";
 
 export default function DragFreeLiquidCarousel() {
   const isSoundEnabled = useStore((state) => state.isSoundEnabled);
@@ -28,10 +29,13 @@ export default function DragFreeLiquidCarousel() {
     [],
   );
 
-  const [emblaRef] = useEmblaCarousel({
-    dragFree: true,
-    active: !isOpen,
-  });
+  const [emblaRef] = useEmblaCarousel(
+    {
+      dragFree: true,
+      active: !isOpen,
+    },
+    [useEmblaCarouselWheelGestures()],
+  );
 
   const handleProjectClick = (project: ProjectInterface) => {
     setSelectedProject(project);
@@ -71,67 +75,65 @@ export default function DragFreeLiquidCarousel() {
           ))}
         </div>
       </div>
-      <div className="z-10 flex flex-row items-center gap-8 px-8">
-        <div className="flex flex-row items-center gap-5">
-          <LiquidButton
-            variant="ghost"
-            size="icon"
-            className="size-14 rounded-full bg-transparent text-zinc-50 transition-all hover:bg-zinc-200/70 hover:text-zinc-800"
-            onClick={() => {
-              if (isOpen && selectedProject?.url) {
-                window.open(selectedProject.url, "_blank");
-              }
-            }}
+      <div className="z-10 flex w-full flex-row items-center justify-between px-8">
+        <AnimatePresence mode="wait">
+          <motion.h1
+            key={currentTitle}
+            initial={{ opacity: 0, filter: "blur(10px)", y: 5 }}
+            animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+            exit={{ opacity: 0, filter: "blur(10px)", y: -5 }}
+            transition={{ duration: 0.2 }}
+            className="text-xl text-zinc-50"
           >
-            <AnimatePresence mode="wait">
-              {isOpen && selectedProject?.url && (
-                <motion.div
-                  initial={{ opacity: 0, filter: "blur(10px)" }}
-                  animate={{ opacity: 1, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, filter: "blur(10px)" }}
-                  transition={{ duration: 0.2 }}
+            {currentTitle}
+          </motion.h1>
+        </AnimatePresence>
+        <div className="flex h-14 flex-row items-center gap-5">
+          <AnimatePresence mode="wait">
+            {isOpen && selectedProject?.url && (
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0, opacity: 0 }}
+                transition={{ type: "spring", stiffness: 1000, damping: 20 }}
+              >
+                <LiquidButton
+                  variant="ghost"
+                  size="icon"
+                  className="size-14 rounded-full bg-transparent text-zinc-50 transition-all hover:bg-zinc-200/70 hover:text-zinc-800"
+                  onClick={() => {
+                    if (isOpen && selectedProject?.url) {
+                      window.open(selectedProject.url, "_blank");
+                    }
+                  }}
                 >
                   <ExternalLink className="size-7" />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </LiquidButton>
-          <LiquidButton
-            variant="ghost"
-            size="icon"
-            className="size-14 rounded-full bg-transparent text-zinc-50 transition-all hover:bg-zinc-200/70 hover:text-zinc-800"
-            onClick={() => {
-              if (isOpen && selectedProject?.github) {
-                window.open(selectedProject.github, "_blank");
-              }
-            }}
-          >
-            <AnimatePresence mode="wait">
-              {isOpen && selectedProject?.github && (
-                <motion.div
-                  initial={{ opacity: 0, filter: "blur(10px)" }}
-                  animate={{ opacity: 1, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, filter: "blur(10px)" }}
-                  transition={{ duration: 0.2 }}
+                </LiquidButton>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <AnimatePresence mode="wait">
+            {isOpen && selectedProject?.github && (
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0, opacity: 0 }}
+                transition={{ type: "spring", stiffness: 1000, damping: 20 }}
+              >
+                <LiquidButton
+                  variant="ghost"
+                  size="icon"
+                  className="size-14 rounded-full bg-transparent text-zinc-50 transition-all hover:bg-zinc-200/70 hover:text-zinc-800"
+                  onClick={() => {
+                    if (isOpen && selectedProject?.github) {
+                      window.open(selectedProject.github, "_blank");
+                    }
+                  }}
                 >
                   <SiGithub className="size-7" />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </LiquidButton>
-        </div>
-        <div className="relative overflow-visible">
-          <AnimatePresence mode="wait">
-            <motion.h1
-              key={currentTitle}
-              initial={{ opacity: 0, filter: "blur(10px)", y: 5 }}
-              animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-              exit={{ opacity: 0, filter: "blur(10px)", y: -5 }}
-              transition={{ duration: 0.2 }}
-              className="text-xl text-zinc-50"
-            >
-              {currentTitle}
-            </motion.h1>
+                </LiquidButton>
+              </motion.div>
+            )}
           </AnimatePresence>
         </div>
       </div>

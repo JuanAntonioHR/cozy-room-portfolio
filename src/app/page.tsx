@@ -13,6 +13,7 @@ import { GlobalLoader } from "@/components/GlobalLoader";
 import { OrientationPrompt } from "@/components/OrientationPrompt";
 import { HydrationWatcher } from "@/components/HydrationWatcher";
 import { useKeyPress } from "@/hooks/useKeyPress";
+import { PerformanceBootstrap } from "@/components/experience/PerformanceBootstrap";
 
 const Experience = dynamic(() => import("@/components/experience/Experience"), {
   ssr: false,
@@ -78,6 +79,7 @@ export default function Home() {
 
   return (
     <main className="h-screen w-screen">
+      <PerformanceBootstrap />
       <HydrationWatcher />
       <GlobalLoader />
       <Canvas

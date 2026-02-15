@@ -10,6 +10,7 @@ import HangingPlants from "./HangingPlant";
 import { SteamEmitter } from "./SteamEmitter";
 import EnviromentChanger from "./EnvironmentChanger";
 import { useStore } from "@/store";
+import { PerformanceWatcher } from "./PerformanceWatcher";
 
 export default function Experience() {
   return (
@@ -23,6 +24,7 @@ export default function Experience() {
       <EffectsWrapper />
       <SteamEmitter position={[-0.85, -0.3, -0.8]} />
       <Godray />
+      <PerformanceWatcher />
     </Suspense>
   );
 }

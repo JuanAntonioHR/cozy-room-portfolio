@@ -136,6 +136,11 @@ export function Voxel3dsModel(props: JSX.IntrinsicElements["group"]) {
           setFocus("ds");
         }
       }}
+      onPointerMissed={() => {
+        if (focus === "ds") {
+          setFocus("idle");
+        }
+      }}
     >
       <mesh
         ref={baseRef}

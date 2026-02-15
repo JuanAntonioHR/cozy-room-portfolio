@@ -142,6 +142,11 @@ export function VoxelGBModel(props: JSX.IntrinsicElements["group"]) {
           setFocus("gb");
         }
       }}
+      onPointerMissed={() => {
+        if (focus === "gb") {
+          setFocus("idle");
+        }
+      }}
     >
       <mesh
         ref={cartridgeRef}

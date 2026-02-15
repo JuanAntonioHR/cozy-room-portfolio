@@ -143,6 +143,11 @@ export function VoxelSWModel(props: JSX.IntrinsicElements["group"]) {
           setFocus("sw");
         }
       }}
+      onPointerMissed={() => {
+        if (focus === "sw") {
+          setFocus("idle");
+        }
+      }}
     >
       <mesh
         castShadow

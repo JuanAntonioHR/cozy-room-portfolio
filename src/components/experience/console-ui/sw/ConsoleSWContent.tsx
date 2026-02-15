@@ -5,7 +5,11 @@ export default function ConsoleSWContent() {
   return (
     <group>
       <Html transform position={[0.005, 0, 0.001]} rotation={[0, 0, 0]} scale={0.01}>
-        <div className={`h-[512px] w-[640px]`}>
+        <div
+          className={`h-[512px] w-[640px]`}
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
+        >
           <ProjectsCarousel />
         </div>
       </Html>

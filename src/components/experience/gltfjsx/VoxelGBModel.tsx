@@ -65,9 +65,9 @@ export function VoxelGBModel(props: JSX.IntrinsicElements["group"]) {
   useEffect(() => {
     if (focus === "gb") {
       gsap.to(groupRef.current.position, {
-        x: 1.41,
+        x: 1.4,
         y: 0.147,
-        z: 1.41,
+        z: 1.4,
         duration: 0.7,
         ease: "power2.out",
       });

@@ -1,5 +1,3 @@
-"use client";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/8bit/tabs";
 import Bibliography from "./Bibliography";
 import Skills from "./Skills";

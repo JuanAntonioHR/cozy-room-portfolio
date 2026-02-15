@@ -19,6 +19,8 @@ import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { Howl } from "howler";
 import { useStore } from "@/store";
+import useEmblaCarouselWheelGestures from "embla-carousel-wheel-gestures";
+
 interface BubbleCarouselProps {
   items: React.ReactNode[];
 }
@@ -40,18 +42,21 @@ export const BubbleCarousel: React.FC<BubbleCarouselProps> = ({ items }) => {
     [],
   );
 
-  const playButtonSound = () => {
+  const playButtonSound = useCallback(() => {
     if (!isSoundEnabled) return;
     const randomPitch = 0.9 + Math.random() * 0.3; // 0.9 – 1.2
     buttonSound.rate(randomPitch);
     buttonSound.play();
-  };
+  }, [isSoundEnabled, buttonSound]);
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: true,
-    align: "center",
-    watchDrag: () => true,
-  });
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      loop: true,
+      align: "center",
+      watchDrag: () => true,
+    },
+    [useEmblaCarouselWheelGestures()],
+  );
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -87,6 +92,32 @@ export const BubbleCarousel: React.FC<BubbleCarouselProps> = ({ items }) => {
   const toggleExpand = useCallback(() => {
     setIsExpanded((prev) => !prev);
   }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+
+      switch (event.key) {
+        case "ArrowLeft":
+          if (!isExpanded) {
+            emblaApi?.scrollPrev();
+            playButtonSound();
+          }
+          break;
+        case "ArrowRight":
+          if (!isExpanded) {
+            emblaApi?.scrollNext();
+            playButtonSound();
+          }
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [emblaApi, toggleExpand, isExpanded, playButtonSound]);
 
   const springConfig = { type: "spring", stiffness: 1000, damping: 20, mass: 2 } as const;
 

@@ -3,9 +3,8 @@ import { X } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Howl } from "howler";
-import { useMemo } from "react";
+import { useEffect, useMemo, useCallback } from "react";
 import { ExperienceInfoType } from "@/data/ExperienceInfo";
-
 import { useStore } from "@/store";
 
 interface BubbleCardProps {
@@ -25,7 +24,7 @@ export default function BubbleCard({ isExpanded, onToggle, experience }: BubbleC
     [],
   );
 
-  const playCardSound = () => {
+  const playCardSound = useCallback(() => {
     if (!isSoundEnabled) return;
     if (isExpanded) {
       openSound.rate(0.8);
@@ -34,7 +33,26 @@ export default function BubbleCard({ isExpanded, onToggle, experience }: BubbleC
       openSound.rate(1);
       openSound.play();
     }
-  };
+  }, [isSoundEnabled, isExpanded, openSound]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+
+      switch (event.key) {
+        case " ":
+          event.preventDefault();
+          onToggle?.();
+          playCardSound();
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onToggle, playCardSound]);
 
   return (
     <LiquidGlassCard

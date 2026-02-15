@@ -12,12 +12,15 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { GlobalLoader } from "@/components/GlobalLoader";
 import { OrientationPrompt } from "@/components/OrientationPrompt";
 import { HydrationWatcher } from "@/components/HydrationWatcher";
+import { useKeyPress } from "@/hooks/useKeyPress";
 
 const Experience = dynamic(() => import("@/components/experience/Experience"), {
   ssr: false,
 });
 
 export default function Home() {
+  const isEscapePressed = useKeyPress("Escape");
+
   const setFocus = useStore((state) => state.setFocus);
   const focus = useStore((state) => state.focus);
 
@@ -66,6 +69,12 @@ export default function Home() {
       setIsMusicEnabled(true);
     }
   };
+
+  useEffect(() => {
+    if (isEscapePressed) {
+      setFocus("idle");
+    }
+  }, [isEscapePressed, setFocus]);
 
   return (
     <main className="h-screen w-screen">

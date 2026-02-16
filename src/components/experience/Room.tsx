@@ -1,9 +1,6 @@
 "use client";
 
-import { useGLTF } from "@react-three/drei";
-import { useEffect, memo } from "react";
-import * as THREE from "three";
-import { Mesh } from "three";
+import { memo } from "react";
 import Foliage, { FoliageInstance } from "./Foliage";
 import { VoxelChuModel } from "./gltfjsx/VoxelChuModel";
 import { VoxelGBModel } from "./gltfjsx/VoxelGBModel";
@@ -11,6 +8,7 @@ import { Voxel3dsModel } from "./gltfjsx/Voxel3dsModel";
 import { VoxelSWModel } from "./gltfjsx/VoxelSWModel";
 import { SWDockModel } from "./gltfjsx/SWDockModel";
 import { VideoScreen } from "./VideoScreen";
+import { RoomModel } from "./gltfjsx/RoomModel";
 
 const FOLIAGE_INSTANCES: FoliageInstance[] = [
   { type: 3, position: [-1.21, 0.74, 1.04], scale: 0.2 },
@@ -34,34 +32,9 @@ const FOLIAGE_INSTANCES: FoliageInstance[] = [
 ];
 
 function Room() {
-  const { scene } = useGLTF("/models/VoxelRoomBlend-transformed.glb");
-
-  useEffect(() => {
-    scene.traverse((child) => {
-      if (child instanceof Mesh) {
-        // Reuse material if already processed or optimize setup
-        if (
-          !(child.material instanceof THREE.MeshStandardMaterial) ||
-          child.material.name !== "optimized"
-        ) {
-          const oldMaterial = child.material as THREE.MeshStandardMaterial;
-          child.material = new THREE.MeshStandardMaterial({
-            map: oldMaterial.map,
-            roughness: 0.9,
-            metalness: 0,
-            envMapIntensity: 0,
-            name: "optimized",
-          });
-          child.castShadow = true;
-          child.receiveShadow = true;
-        }
-      }
-    });
-  }, [scene]);
-
   return (
     <group onClick={(e) => e.stopPropagation()}>
-      <primitive object={scene} scale={1} position={[0, -1, 0]} rotation={[0, 0.5 * Math.PI, 0]} />
+      <RoomModel />
       <Foliage instances={FOLIAGE_INSTANCES} />
       <VoxelChuModel />
       <VoxelGBModel />
@@ -74,5 +47,3 @@ function Room() {
 }
 
 export default memo(Room);
-
-useGLTF.preload("/models/VoxelRoomBlend-transformed.glb");

@@ -162,7 +162,7 @@ export function Voxel3dsModel(props: JSX.IntrinsicElements["group"]) {
         <Outlines visible={hovered && focus === "idle"} thickness={3} color="white" />
       </mesh>
       {hovered && focus === "idle" && (
-        <TitleLabelThree title="Experience" position={[-0.15, 0.27, 0]} />
+        <TitleLabelThree title="Experience" position={[-0.13, 0.26, -0.1]} />
       )}
     </group>
   );

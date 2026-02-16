@@ -83,8 +83,8 @@ export default function Home() {
       <HydrationWatcher />
       <GlobalLoader />
       <Canvas
-        shadows="soft"
-        camera={{ position: [0, 0, 0], fov: 45 }}
+        shadows
+        camera={{ position: [2, 0, 2], fov: 45 }}
         gl={{
           antialias: false,
         }}

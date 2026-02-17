@@ -1,6 +1,6 @@
 "use client";
 
-import { useVideoTexture, useCursor } from "@react-three/drei";
+import { useVideoTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { useState, useRef, useEffect, useCallback } from "react";
 import gsap from "gsap";
@@ -12,9 +12,6 @@ export function VideoScreen() {
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.MeshStandardMaterial>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [hovered, setHovered] = useState(false);
-
-  useCursor(hovered);
 
   const texture = useVideoTexture("/videos/M_Gameplay.mp4", {
     muted: true,
@@ -126,8 +123,6 @@ export function VideoScreen() {
           e.stopPropagation();
           toggleVideo();
         }}
-        onPointerOver={() => setHovered(true)}
-        onPointerOut={() => setHovered(false)}
         visible={false}
       >
         <planeGeometry args={[1, 1]} />

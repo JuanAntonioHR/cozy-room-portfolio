@@ -175,7 +175,7 @@ export function VoxelSWModel(props: JSX.IntrinsicElements["group"]) {
         >
           <Outlines visible={hovered && focus === "idle"} thickness={3} color="white" />
         </mesh>
-        {focus === "sw" && <ConsoleSWContent />}
+        <ConsoleSWContent visible={focus === "sw"} />
         <Outlines visible={hovered && focus === "idle"} thickness={3} color="white" />
       </mesh>
       {hovered && focus === "idle" && (

@@ -34,6 +34,8 @@ export default function Home() {
   const musicRef = useRef<Howl | null>(null);
   const [isMusicEnabled, setIsMusicEnabled] = useState(false);
 
+  const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+
   useEffect(() => {
     musicRef.current = new Howl({
       src: ["/sounds/Deep-Relaxation.ogg", "/sounds/Deep-Relaxation.mp3"],
@@ -83,12 +85,13 @@ export default function Home() {
       <HydrationWatcher />
       <GlobalLoader />
       <Canvas
-        shadows
-        camera={{ position: [2, 0, 2], fov: 45 }}
+        shadows={!isMobile}
+        camera={{ position: [0, 0, 0], fov: 45 }}
         gl={{
-          antialias: true,
+          antialias: !isMobile,
           powerPreference: "high-performance",
         }}
+        performance={{ min: 0.5 }}
         dpr={[1, 2]}
       >
         <Experience />

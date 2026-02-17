@@ -156,7 +156,7 @@ export function Voxel3dsModel(props: JSX.IntrinsicElements["group"]) {
           material={materials.palette}
           position={[0.001, 0.0072, -0.0455]}
         >
-          {focus === "ds" && <Console3DSContent />}
+          <Console3DSContent visible={focus === "ds"} />
           <Outlines visible={hovered && focus === "idle"} thickness={3} color="white" />
         </mesh>
         <Outlines visible={hovered && focus === "idle"} thickness={3} color="white" />

@@ -29,6 +29,7 @@ export const metadata: Metadata = {
     title: "Juan Antonio | Web Developer & Designer",
     description:
       "Explore my interactive 3D portfolio: a cozy room inspired by retro and voxel aesthetics, built with React Three Fiber and Next.js.",
+    url: "https://www.antonio-hr.xyz/",
     siteName: "Juan Antonio HR",
     locale: "en_US",
     type: "website",

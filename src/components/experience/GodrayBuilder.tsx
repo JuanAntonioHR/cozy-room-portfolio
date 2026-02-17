@@ -40,30 +40,6 @@ export const GodrayBuilder = ({ settings, onChange }: GodrayBuilderProps) => {
       max: 20,
       step: 0.1,
     },
-    timeSpeed: {
-      value: settings.timeSpeed || 0.1,
-      min: 0,
-      max: 2,
-      step: 0.01,
-    },
-    noiseScale: {
-      value: settings.noiseScale || 5,
-      min: 0.1,
-      max: 20,
-      step: 0.1,
-    },
-    smoothBottom: {
-      value: settings.smoothBottom || 0.1,
-      min: 0,
-      max: 1,
-      step: 0.001,
-    },
-    smoothTop: {
-      value: settings.smoothTop || 0.9,
-      min: 0,
-      max: 1,
-      step: 0.001,
-    },
     fresnelPower: {
       value: settings.fresnelPower || 5,
       min: 1,

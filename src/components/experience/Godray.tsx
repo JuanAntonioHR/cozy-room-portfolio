@@ -11,10 +11,6 @@ const GodrayMaterial = {
   uniforms: {
     uTime: { value: 0 },
     uColor: { value: new THREE.Color("white") },
-    uNoiseScale: { value: 5 },
-    uTimeSpeed: { value: 0.1 },
-    uSmoothTop: { value: 0.9 },
-    uSmoothBottom: { value: 0.1 },
     uFresnelPower: { value: 5 },
   },
   vertexShader: `
@@ -22,6 +18,10 @@ const GodrayMaterial = {
     varying vec3 vNormal;
     varying vec3 vPositionWorld;
     varying vec3 vNormalLocal;
+    varying float vSmoothEdges;
+
+    #define SMOOTH_TOP 0.7
+    #define SMOOTH_BOTTOM 0.4
 
     void main() {
       vUv = uv;
@@ -29,22 +29,27 @@ const GodrayMaterial = {
       vNormalLocal = normal;
       vec4 worldPosition = modelMatrix * vec4(position, 1.0);
       vPositionWorld = worldPosition.xyz;
+      
+      // Calculate smooth edges in vertex shader
+      // Note: This requires more height segments in the geometry for proper interpolation
+      vSmoothEdges = smoothstep(0.0, SMOOTH_BOTTOM, uv.y) * smoothstep(1.0, SMOOTH_TOP, uv.y);
+
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }
   `,
   fragmentShader: `
     uniform float uTime;
     uniform vec3 uColor;
-    uniform float uNoiseScale;
-    uniform float uTimeSpeed;
-    uniform float uSmoothTop;
-    uniform float uSmoothBottom;
     uniform float uFresnelPower;
 
     varying vec2 vUv;
     varying vec3 vNormal;
     varying vec3 vPositionWorld;
     varying vec3 vNormalLocal;
+    varying float vSmoothEdges;
+
+    #define NOISE_SCALE 4.5
+    #define TIME_SPEED 0.1
 
     // Worley Noise Implementation
     vec3 hash( vec3 p ) {
@@ -75,11 +80,9 @@ const GodrayMaterial = {
       vec3 viewDirection = normalize(cameraPosition - vPositionWorld);
       float fresnel = pow(abs(dot(vNormal, viewDirection)), uFresnelPower);
       
-      float noise = worley(vNormalLocal * uNoiseScale + uTime * uTimeSpeed);
+      float noise = worley(vNormalLocal * NOISE_SCALE + (uTime * TIME_SPEED));
       
-      float smoothEdges = smoothstep(0.0, uSmoothBottom, vUv.y) * smoothstep(1.0, uSmoothTop, vUv.y);
-      
-      float alpha = noise * fresnel * smoothEdges;
+      float alpha = noise * fresnel * vSmoothEdges;
       
       gl_FragColor = vec4(uColor, alpha);
     }
@@ -90,13 +93,9 @@ export interface GodraySettings {
   position: [number, number, number];
   rotation: [number, number, number];
   color: string;
-  timeSpeed: number;
-  noiseScale: number;
   topRadius: number;
   bottomRadius: number;
   height: number;
-  smoothBottom: number;
-  smoothTop: number;
   fresnelPower: number;
 }
 
@@ -147,10 +146,6 @@ export const Godray = ({ debug = false, ...props }: GodrayProps) => {
       topRadius: target.topRadius,
       bottomRadius: target.bottomRadius,
       height: target.height,
-      timeSpeed: target.timeSpeed,
-      noiseScale: target.noiseScale,
-      smoothBottom: target.smoothBottom,
-      smoothTop: target.smoothTop,
       fresnelPower: target.fresnelPower,
       color: target.color,
       duration: 1.2,
@@ -173,10 +168,6 @@ export const Godray = ({ debug = false, ...props }: GodrayProps) => {
     () => ({
       uTime: { value: 0 },
       uColor: { value: new THREE.Color(settings.color) },
-      uNoiseScale: { value: settings.noiseScale },
-      uTimeSpeed: { value: settings.timeSpeed },
-      uSmoothTop: { value: settings.smoothTop },
-      uSmoothBottom: { value: settings.smoothBottom },
       uFresnelPower: { value: settings.fresnelPower },
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -192,10 +183,6 @@ export const Godray = ({ debug = false, ...props }: GodrayProps) => {
   useEffect(() => {
     if (materialRef.current) {
       const u = materialRef.current.uniforms;
-      u.uNoiseScale.value = settings.noiseScale;
-      u.uTimeSpeed.value = settings.timeSpeed;
-      u.uSmoothTop.value = settings.smoothTop;
-      u.uSmoothBottom.value = settings.smoothBottom;
       u.uFresnelPower.value = settings.fresnelPower;
       if (settings.color) {
         u.uColor.value.set(settings.color);
@@ -217,10 +204,11 @@ export const Godray = ({ debug = false, ...props }: GodrayProps) => {
       >
         <mesh {...props}>
           <cylinderGeometry
-            args={[settings.topRadius, settings.bottomRadius, settings.height, 4, 1, false]}
+            args={[settings.topRadius, settings.bottomRadius, settings.height, 8, 16, true]}
           />
           <shaderMaterial
             ref={materialRef}
+            precision="lowp"
             transparent
             depthWrite={false}
             blending={THREE.AdditiveBlending}

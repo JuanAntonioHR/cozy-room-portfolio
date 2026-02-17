@@ -11,104 +11,113 @@ export function VideoScreen() {
   const [isOn, setIsOn] = useState(false);
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.MeshStandardMaterial>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const [hovered, setHovered] = useState(false);
 
   useCursor(hovered);
 
   const texture = useVideoTexture("/videos/M_Gameplay.mp4", {
-    unsuspend: "canplay",
     muted: true,
     loop: true,
     start: false,
     playsInline: true,
+    crossOrigin: "anonymous",
   });
-
-  const video = texture.image as HTMLVideoElement;
+  const textureRef = useRef(texture);
 
   useEffect(() => {
-    if (meshRef.current && materialRef.current) {
-      if (!isOn) {
-        meshRef.current.scale.set(0, 0, 0);
-        materialRef.current.emissiveIntensity = 0;
-      }
+    textureRef.current = texture;
+    if (texture.image instanceof HTMLVideoElement) {
+      videoRef.current = texture.image;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [texture]);
+
+  const playVideoSafely = async () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    try {
+      await video.play();
+
+      if (video.readyState >= 2) {
+        textureRef.current.needsUpdate = true;
+        materialRef.current!.needsUpdate = true;
+      } else {
+        video.onloadeddata = () => {
+          textureRef.current.needsUpdate = true;
+          materialRef.current!.needsUpdate = true;
+        };
+      }
+    } catch (e) {
+      console.warn("Video play blocked", e);
+    }
+  };
+
+  useEffect(() => {
+    if (!meshRef.current || !materialRef.current) return;
+    meshRef.current.scale.set(0, 0, 0);
+    materialRef.current.emissiveIntensity = 0;
   }, []);
 
   const toggleVideo = useCallback(() => {
-    if (!meshRef.current || !materialRef.current) return;
+    if (!meshRef.current || !materialRef.current || !videoRef.current) return;
 
-    const newIsOn = !isOn;
-    setIsOn(newIsOn);
+    const video = videoRef.current;
+    const turningOn = !isOn;
+    setIsOn(turningOn);
 
-    if (newIsOn) {
-      const tl = gsap.timeline();
+    if (turningOn) {
+      materialRef.current.map = texture;
+      materialRef.current.emissiveMap = texture;
+      materialRef.current.needsUpdate = true;
+
+      const tl = gsap.timeline({
+        onComplete: () => {
+          playVideoSafely();
+        },
+      });
 
       tl.to(meshRef.current.scale, {
         x: 1,
         y: 0.01,
         z: 1,
         duration: 0.2,
-        ease: "power2.out",
+      }).to(meshRef.current.scale, {
+        y: 1,
+        duration: 0.3,
+        ease: "back.out(1.7)",
       });
-
-      tl.to(
-        meshRef.current.scale,
-        {
-          y: 1,
-          duration: 0.3,
-          ease: "back.out(1.7)",
-        },
-        "+=0.1",
-      );
-
-      tl.to(
-        materialRef.current,
-        {
-          emissiveIntensity: 3,
-          duration: 0.1,
-          repeat: 1,
-          yoyo: true,
-          onComplete: () => {
-            gsap.to(materialRef.current, { emissiveIntensity: 0.8, duration: 0.5 });
-            video.play();
-          },
-        },
-        "<",
-      );
+      materialRef.current.emissiveIntensity = 0.8;
     } else {
-      const tl = gsap.timeline();
+      const tl = gsap.timeline({
+        onStart: () => video.pause(),
+        onComplete: () => {
+          materialRef.current!.map = null;
+          materialRef.current!.emissiveMap = null;
+        },
+      });
 
       tl.to(materialRef.current, {
-        emissiveIntensity: 5,
+        emissiveIntensity: 4,
         duration: 0.1,
-      });
-
-      tl.to(meshRef.current.scale, {
-        y: 0.01,
-        duration: 0.2,
-        ease: "power2.in",
-        onStart: () => video.pause(),
-      });
-
-      tl.to(meshRef.current.scale, {
-        x: 0,
-        y: 0,
-        z: 0,
-        duration: 0.1,
-        ease: "power2.in",
-      });
-
-      tl.to(
-        materialRef.current,
-        {
+      })
+        .to(meshRef.current.scale, {
+          y: 0.01,
+          duration: 0.2,
+          ease: "power2.in",
+        })
+        .to(meshRef.current.scale, {
+          x: 0,
+          y: 0,
+          z: 0,
+          duration: 0.1,
+        })
+        .to(materialRef.current, {
           emissiveIntensity: 0,
           duration: 0.1,
-        },
-        "<",
-      );
+        });
     }
-  }, [isOn, video]);
+  }, [isOn, texture]);
 
   return (
     <group position={[-0.79, -0.131, 0.089]} rotation={[0, Math.PI / 2, 0]} scale={0.28}>
@@ -119,24 +128,19 @@ export function VideoScreen() {
         }}
         onPointerOver={() => setHovered(true)}
         onPointerOut={() => setHovered(false)}
+        visible={false}
       >
         <planeGeometry args={[1, 1]} />
-        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
       </mesh>
 
       <mesh ref={meshRef}>
         <planeGeometry args={[1, 1]} />
         <meshStandardMaterial
           ref={materialRef}
-          map={texture}
-          map-generateMipmaps={false}
-          map-minFilter={THREE.LinearFilter}
-          map-magFilter={THREE.LinearFilter}
           emissive={WHITE}
-          emissiveMap={texture}
-          emissiveIntensity={0.8}
+          emissiveIntensity={0}
           toneMapped={false}
-          transparent={true}
+          transparent
         />
       </mesh>
     </group>

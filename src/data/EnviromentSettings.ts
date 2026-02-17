@@ -41,10 +41,6 @@ export const enviromentSettings: EnviromentSettings[] = [
           topRadius: 0.8,
           bottomRadius: 0.8,
           height: 2.5,
-          timeSpeed: 0.1,
-          noiseScale: 4.5,
-          smoothBottom: 0.4,
-          smoothTop: 0.7,
           fresnelPower: 3,
         }
     },
@@ -64,10 +60,6 @@ export const enviromentSettings: EnviromentSettings[] = [
           topRadius: 0.8,
           bottomRadius: 0.8,
           height: 2.5,
-          timeSpeed: 0.1,
-          noiseScale: 4.5,
-          smoothBottom: 0.45,
-          smoothTop: 0.66,
           fresnelPower: 3.4,
         }
     },
@@ -87,10 +79,6 @@ export const enviromentSettings: EnviromentSettings[] = [
           topRadius: 0.8,
           bottomRadius: 0.8,
           height: 2.5,
-          timeSpeed: 0.1,
-          noiseScale: 4.5,
-          smoothBottom: 0.45,
-          smoothTop: 0.29,
           fresnelPower: 5,
         }
     }

@@ -86,8 +86,10 @@ export default function Home() {
         shadows
         camera={{ position: [2, 0, 2], fov: 45 }}
         gl={{
-          antialias: false,
+          antialias: true,
+          powerPreference: "high-performance",
         }}
+        dpr={[1, 2]}
       >
         <Experience />
       </Canvas>

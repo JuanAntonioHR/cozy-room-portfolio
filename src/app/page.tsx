@@ -32,6 +32,7 @@ export default function Home() {
   const toggleSound = useStore((state) => state.toggleSound);
 
   const musicRef = useRef<Howl | null>(null);
+  const ambientRef = useRef<Howl | null>(null);
   const [isMusicEnabled, setIsMusicEnabled] = useState(false);
 
   const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
@@ -43,8 +44,15 @@ export default function Home() {
       volume: 0,
     });
 
+    ambientRef.current = new Howl({
+      src: ["/sounds/forest.ogg", "/sounds/forest.mp3"],
+      loop: true,
+      volume: 0,
+    });
+
     return () => {
       musicRef.current?.unload();
+      ambientRef.current?.unload();
     };
   }, []);
 
@@ -52,7 +60,8 @@ export default function Home() {
 
   const toggleMusic = () => {
     const music = musicRef.current;
-    if (!music) return;
+    const ambient = ambientRef.current;
+    if (!music || !ambient) return;
 
     if (Howler.ctx.state === "suspended") {
       Howler.ctx.resume();
@@ -64,11 +73,15 @@ export default function Home() {
 
     if (isMusicEnabled) {
       music.fade(music.volume(), 0, 500);
+      ambient.fade(ambient.volume(), 0, 500);
       setTimeout(() => music.pause(), 500);
+      setTimeout(() => ambient.pause(), 500);
       setIsMusicEnabled(false);
     } else {
       if (!music.playing()) music.play();
+      if (!ambient.playing()) ambient.play();
       music.fade(music.volume(), 0.7, 1000);
+      ambient.fade(ambient.volume(), 0.3, 1000);
       setIsMusicEnabled(true);
     }
   };

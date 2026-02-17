@@ -11,12 +11,10 @@ import { SteamEmitter } from "./SteamEmitter";
 import EnviromentChanger from "./EnvironmentChanger";
 import { useStore } from "@/store";
 import { PerformanceWatcher } from "./PerformanceWatcher";
-import { Stats } from "@react-three/drei";
 
 export default function Experience() {
   return (
     <Suspense>
-      <Stats />
       <EnvironmentController />
       <EnviromentChanger />
       <CameraRig />

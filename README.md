@@ -1,7 +1,5 @@
-<div align="center">
-# Welcome to my portfolio!
+# ⭐ Welcome to my portfolio! ⭐
 ![cozy-room](public/images/projects/portfolio0.png)
-</div>
 
 ## Setup
 

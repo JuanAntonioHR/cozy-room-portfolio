@@ -32,6 +32,8 @@ export const ProjectsInfo: ProjectInterface[] = [
       "/images/projects/chambauaq1.png",
       "/images/projects/chambauaq2.png",
       "/images/projects/chambauaq3.png",
+      "/images/projects/chambauaq4.png",
+      "/images/projects/chambauaq5.png",
     ],
     role: "Frontend Dev & Designer",
     technologies: ["Figma", "API REST", "Next.js", "Shadcn", "Zustand"],

@@ -144,13 +144,11 @@ export function Voxel3dsModel(props: JSX.IntrinsicElements["group"]) {
     >
       <mesh
         ref={baseRef}
-        castShadow
         receiveShadow
         geometry={nodes["3ds_Base"].geometry}
         material={materials.palette}
       >
         <mesh
-          castShadow
           receiveShadow
           geometry={nodes["3ds_Screen"].geometry}
           material={materials.palette}

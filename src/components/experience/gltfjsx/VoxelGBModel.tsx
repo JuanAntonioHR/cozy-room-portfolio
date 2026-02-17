@@ -150,7 +150,6 @@ export function VoxelGBModel(props: JSX.IntrinsicElements["group"]) {
     >
       <mesh
         ref={cartridgeRef}
-        castShadow
         receiveShadow
         geometry={nodes.GB_Cartridge.geometry}
         material={materials.palette}
@@ -158,12 +157,7 @@ export function VoxelGBModel(props: JSX.IntrinsicElements["group"]) {
       >
         <Outlines visible={hovered && focus === "idle"} thickness={3} color="white" />
       </mesh>
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.GB_Console.geometry}
-        material={materials.palette}
-      >
+      <mesh receiveShadow geometry={nodes.GB_Console.geometry} material={materials.palette}>
         {focus === "gb" && <ConsoleGBContent />}
         <Outlines visible={hovered && focus === "idle"} thickness={3} color="white" />
       </mesh>
